@@ -1,0 +1,45 @@
+button {
+    background-image: None;
+    background-color: transparent;
+    color: white;
+    border: None;
+    min-width: 64px;
+    transition: 0.05s;
+    margin: 0px;
+}
+
+button:hover {
+    background-image: None;
+    background-color: #888B74;
+    color: white;
+    border: None;
+    transition: 0.05s;
+    margin: 0px;
+}
+
+button:active {
+    background-image: None;
+    background-color: #6B705B;
+    color: white;
+    border: None;
+    transition: 0.05s;
+    margin: 0px;
+}
+
+menubutton {
+    margin: 0px;
+}
+
+button.toolbar {
+    background-color: transparent;
+    border: None;
+    color: white;
+    margin: 0px;
+}
+
+button.toolbar:hover {
+    background-color: #4b4e47;
+}
+button.toolbar:active {
+    background-color: #617359;
+}

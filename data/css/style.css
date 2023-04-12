@@ -1,0 +1,57 @@
+@import "button.css";
+@import "textview.css";
+
+window {
+    background-color: #565656;
+}
+
+label {
+    font-size: 14px;
+}
+
+arrow {
+    background-image: None;
+    background-color: transparent;
+    border: 0px;
+}
+
+contents {
+    background-image: None;
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 8px;
+    box-shadow: None;
+}
+
+popover {
+    background-image: None;
+    background-color: #888B74;
+    padding: 1px;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 0px;
+}
+
+box.start {
+    padding: 0px;
+}
+
+box.toolbar {
+    padding: 1px;
+    background-image: None;
+/*    background-color: #607756; */
+    background-color: #888B74;
+}
+
+box.document-tree {
+    padding: 1px;
+    background-image: None;
+    background-color: blue;
+}
+
+slider {
+    min-width: 20px;
+    min-height: 40px;
+    border-radius: 8px;
+}

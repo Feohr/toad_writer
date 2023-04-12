@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <template class="TWMenuBox" parent="GtkBox">
+        <child type="start">
+            <object class="TWFileButton" id="file"/>
+        </child>
+        <child type="start">
+            <object class="TWLicenseButton" id="license">
+                <signal name="clicked" handler="license_button_clicked"/>
+                <property name="label">License</property>
+            </object>
+        </child>
+   </template>
+</interface>

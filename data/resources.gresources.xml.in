@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+    <gresource prefix="@PATH_ID@">
+        <file compressed="true" preprocess="xml-stripblanks">window.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">license.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">menubox.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">toolbar.ui</file>
+        <file compressed="true" alias="style.css">css/style.css</file>
+        <file compressed="true" alias="button.css">css/button.css</file>
+        <file compressed="true" alias="textview.css">css/textview.css</file>
+    </gresource>
+    <gresource prefix="@PATH_ID@/menu/">
+        <file compressed="true" preprocess="xml-stripblanks" alias="file.ui">menu/file.ui</file>
+    </gresource>
+    <gresource prefix="@PATH_ID@/icons/">
+        <file
+            alias="48x48/apps/@BASE_ID@.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/apps/48x48/@BASE_ID@.svg</file>
+        <file
+            alias="256x256/apps/@BASE_ID@.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/apps/256x256/@BASE_ID@.svg</file>
+        <file
+            alias="512x512/apps/@BASE_ID@.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/apps/512x512/@BASE_ID@.svg</file>
+    </gresource>
+</gresources>

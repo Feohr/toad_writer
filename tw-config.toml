@@ -1,0 +1,5 @@
+[vars]
+app_name = 'ToadWriter'
+app_id = 'com.github.feohr.ToadWriter'
+base_id = 'com.github.feohr.ToadWriter'
+path_id = '/com/github/feohr/ToadWriter'

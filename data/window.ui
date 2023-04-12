@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <template class="TWApplicationWindow" parent="GtkApplicationWindow">
+        <child type="titlebar">
+            <object class="GtkHeaderBar">
+                <child>
+                    <object class="TWMenuBox" id="header"/>
+                </child>
+            </object>
+        </child>
+        <child>
+            <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                    <object class="GtkBox">
+                        <child>
+                            <object class="TWToolBar" id="main_toolbar"/>
+                        </child>
+                        <style>
+                            <class name="toolbar"/>
+                        </style>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkBox">
+                        <child>
+                            <object class="GtkBox">
+                                <property name="width-request">500</property>
+                                <property name="height-request">800</property>
+                                <property name="halign">start</property>
+                                <property name="valign">start</property>
+                                <style>
+                                    <class name="document-tree"/>
+                                </style>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkScrolledWindow">
+                                <property name="has-frame">true</property>
+                                <property name="child">
+                                    <object class="GtkBox">
+                                        <property name="hexpand">true</property>
+                                        <property name="halign">center</property>
+                                        <property name="grab_focus">true</property>
+                                        <child>
+                                            <object class="TWPage" id="main_page">
+                                                <property name="top_margin">50</property>
+                                                <property name="right_margin">50</property>
+                                                <property name="left_margin">50</property>
+                                                <property name="bottom_margin">50</property>
+                                                <property name="margin_top">100</property>
+                                                <property name="margin_bottom">100</property>
+                                                <style>
+                                                    <class name="main-page"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

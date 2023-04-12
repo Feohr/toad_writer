@@ -1,0 +1,17 @@
+textview.main-page {
+    color: black;
+    background-color: #D9D9D9;
+    font-size: 15px;
+    caret-color: black;
+}
+
+textview.license-text {
+    color: black;
+    background-color: #D9D9D9;
+    font-size: 15px;
+    box-shadow: 10px 10px 10px 10px;
+}
+
+selection {
+    background-color: #888B74;
+}
