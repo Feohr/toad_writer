@@ -29,8 +29,8 @@ mod dimensions;
 
 use dimensions::*;
 use gtk::{
-    glib, glib::subclass::object::ObjectImpl, glib::Object, prelude::*, subclass::prelude::*,
-    TextView,
+    glib, glib::subclass::object::ObjectImpl, glib::Object, glib::WeakRef, prelude::*,
+    subclass::prelude::*, ScrolledWindow, TextView,
 };
 use log::*;
 
@@ -39,10 +39,10 @@ use log::*;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug)]
     pub struct TWPage {
-        pub count: u32,
-        pub buffer: String,
+        pub count: usize,
+        pub scroll_parent: WeakRef<ScrolledWindow>,
     }
 
     #[glib::object_subclass]
@@ -50,15 +50,25 @@ mod imp {
         const NAME: &'static str = "TWPage";
         type ParentType = TextView;
         type Type = super::TWPage;
+
+        fn new() -> Self {
+            Self {
+                count: 0_usize,
+                scroll_parent: WeakRef::new(),
+            }
+        }
     }
 
     impl ObjectImpl for TWPage {
         fn constructed(&self) {
+            let obj = self.obj();
+
             // Get default height and width
             let resolution = gtk::PrintSettings::new().resolution();
-            let dimensions = ISODimensions::default().get()
+            let dimensions = ISODimensions::default()
+                .get()
                 .iter()
-                .map(|dim| (dim * resolution as f64) as i32 )
+                .map(|dim| (dim * resolution as f64) as i32)
                 .collect::<Vec<i32>>();
 
             // Extracting values
@@ -69,19 +79,32 @@ mod imp {
             );
 
             // Set page size
-            self.obj().set_size_request(height, width);
+            obj.set_size_request(height, width);
         }
     }
 
-    impl WidgetImpl for TWPage {}
+    impl WidgetImpl for TWPage {
+        fn map(&self) {
+            self.parent_map();
+
+            // Add a reference of the scroll window
+            let obj = self.obj();
+            let Some(scroll) = obj.parent()
+                .and_then(|widget| widget.parent())
+                .and_then(|widget| widget.parent()) else { return };
+            debug!("TWPage parent: {:?}", scroll);
+            // Downcasting widget
+            let Ok(scroll) = scroll.downcast::<ScrolledWindow>() else { return };
+            self.scroll_parent.set(Some(&scroll));
+        }
+    }
 
     impl TextViewImpl for TWPage {}
 }
 
 glib::wrapper! {
     pub struct TWPage(ObjectSubclass<imp::TWPage>)
-        @extends gtk::Widget, gtk::TextView,
-        @implements gtk::Buildable;
+        @extends gtk::Widget, gtk::TextView;
 }
 
 impl Default for TWPage {
