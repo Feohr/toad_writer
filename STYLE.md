@@ -314,7 +314,7 @@ Although rust guidelines handle most of the rules, there are some additional gui
 
 - ### Practices
 
-    1. Avoid working with generics if the given code can be written otherwise.
+    1. Avoid working with generics if the given code can be written otherwise with reasonable ease.
     ```rust
         // There is no need for a generics.
         struct Page<T> {
