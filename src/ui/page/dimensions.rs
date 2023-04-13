@@ -30,24 +30,33 @@ use std::default::Default;
 pub type Pixels = [f64; 2];
 
 const NAS_DIMENSIONS: [Pixels; 4] = [
-    // Letter           // Legal            // Tabloid          // Ledger
+    // Letter
     [8.5_f64, 11_f64],
+    // Legal
     [8.5_f64, 14_f64],
+    // Tabloid
     [11_f64, 17_f64],
+    // Ledger
     [17_f64, 11_f64],
 ];
 const ISO_DIMENSIONS: [Pixels; 9] = [
-    // A0                   // A1                   // A2                   // A3
+// A0
     [33.1_f64, 46.8_f64],
+// A1
     [23.4_f64, 33.1_f64],
+// A2
     [16.5_f64, 23.4_f64],
+// A3
     [11.7_f64, 16.5_f64],
-    // A4                   // A5                   // A6                   // A7
+// A4
     [8.3_f64, 11.7_f64],
+// A5
     [5.8_f64, 8.5_f64],
+// A6
     [4.1_f64, 5.8_f64],
+// A7
     [2.9_f64, 4.1_f64],
-    // A8
+// A8
     [2.0_f64, 2.9_f64],
 ];
 
@@ -71,12 +80,6 @@ pub enum ISODimensions {
     A6,
     A7,
     A8,
-}
-
-// Trait to handle pixel conversions
-pub trait PixelsConvert {
-    fn into_i32(self) -> [i32; 2];
-    fn with_res(self) -> Self;
 }
 
 /*▇▇▇▇▇▇▇▇w▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
@@ -118,17 +121,5 @@ impl NASDimensions {
             NASDimensions::Tabloid => NAS_DIMENSIONS[2],
             NASDimensions::Ledger => NAS_DIMENSIONS[3],
         }
-    }
-}
-
-impl PixelsConvert for Pixels {
-    fn into_i32(self) -> [i32; 2] {
-        [self[0] as i32, self[1] as i32]
-    }
-    fn with_res(mut self) -> Self {
-        let resolution = gtk::PrintSettings::new().resolution();
-        self[0] *= resolution as f64;
-        self[1] *= resolution as f64;
-        self
     }
 }

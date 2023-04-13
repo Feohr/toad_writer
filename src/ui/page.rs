@@ -27,6 +27,8 @@
 
 mod dimensions;
 
+const STD_PAGE_DIM: usize = 500_usize;
+
 use dimensions::*;
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::Object, prelude::*, subclass::prelude::*,
@@ -55,11 +57,25 @@ mod imp {
     impl ObjectImpl for TWPage {
         fn constructed(&self) {
             // Get default height and width
-            let [height, width] = ISODimensions::default().get().with_res().into_i32();
+            let resolution = gtk::PrintSettings::new().resolution();
+            let mut dimensions = ISODimensions::default().get()
+                .iter()
+                .map(|dim| (dim * resolution as f64) as i32 )
+                .collect::<Vec<i32>>();
+
+            // If page size is anything other than 2
+            if dimensions.len() != 2_usize {
+                error!("Page has less than or more than two dimensions: {:?}", dimensions);
+                dimensions.resize(2_usize, STD_PAGE_DIM as i32);
+            }
+
+            // Extracting values
+            let (height, width) = (dimensions[0], dimensions[1]);
             info!(
                 "Untitled file hence default page size set {} X {}",
                 height, width
             );
+
             // Set page size
             self.obj().set_size_request(height, width);
         }
