@@ -15,7 +15,7 @@
         </a>
     </p>
     <p>
-        <a href="https://GitHub.com/feohr/toad_writer/commit/">
+        <a href="https://GitHub.com/feohr/toad_writer/commits/">
             <img src="https://badgen.net/github/commits/feohr/toad_writer">
         </a>
          <a href="https://opensource.org/licenses/BSD-3-Clause">
