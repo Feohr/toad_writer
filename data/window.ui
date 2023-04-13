@@ -41,7 +41,6 @@
                                     <object class="GtkBox">
                                         <property name="hexpand">true</property>
                                         <property name="halign">center</property>
-                                        <property name="grab_focus">true</property>
                                         <child>
                                             <object class="TWPage" id="main_page">
                                                 <property name="top_margin">50</property>
