@@ -27,37 +27,37 @@
 
 use std::default::Default;
 
-pub type Pixels = [f64; 2];
+pub type Pixels = (f64, f64);
 
 const NAS_DIMENSIONS: [Pixels; 4] = [
     // Letter
-    [8.5_f64, 11_f64],
+    (8.5_f64, 11_f64),
     // Legal
-    [8.5_f64, 14_f64],
+    (8.5_f64, 14_f64),
     // Tabloid
-    [11_f64, 17_f64],
+    (11_f64, 17_f64),
     // Ledger
-    [17_f64, 11_f64],
+    (17_f64, 11_f64),
 ];
 const ISO_DIMENSIONS: [Pixels; 9] = [
 // A0
-    [33.1_f64, 46.8_f64],
+    (33.1_f64, 46.8_f64),
 // A1
-    [23.4_f64, 33.1_f64],
+    (23.4_f64, 33.1_f64),
 // A2
-    [16.5_f64, 23.4_f64],
+    (16.5_f64, 23.4_f64),
 // A3
-    [11.7_f64, 16.5_f64],
+    (11.7_f64, 16.5_f64),
 // A4
-    [8.3_f64, 11.7_f64],
+    (8.3_f64, 11.7_f64),
 // A5
-    [5.8_f64, 8.5_f64],
+    (5.8_f64, 8.5_f64),
 // A6
-    [4.1_f64, 5.8_f64],
+    (4.1_f64, 5.8_f64),
 // A7
-    [2.9_f64, 4.1_f64],
+    (2.9_f64, 4.1_f64),
 // A8
-    [2.0_f64, 2.9_f64],
+    (2.0_f64, 2.9_f64),
 ];
 
 // North American Standard paper sizes
@@ -122,4 +122,9 @@ impl NASDimensions {
             NASDimensions::Ledger => NAS_DIMENSIONS[3],
         }
     }
+}
+
+pub fn pixels_with_res((height, width): Pixels) -> Pixels {
+    let resolution = gtk::PrintSettings::new().resolution() as f64;
+    (height * resolution, width * resolution)
 }

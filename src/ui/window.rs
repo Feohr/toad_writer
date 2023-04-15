@@ -31,7 +31,7 @@ use crate::ui::toolbar::TWToolBar;
 use crate::{config, ui::app::TWApplication};
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
-    subclass::prelude::*, ApplicationWindow, CompositeTemplate,
+    subclass::prelude::*, ApplicationWindow, CompositeTemplate, TextBuffer,
 };
 use std::default::Default;
 
@@ -59,10 +59,21 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
             obj.init_template();
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl TWApplicationWindow {
+        #[template_callback]
+        fn text_changed(&self, page: &TextBuffer) {
+            let textview = self.page.imp().obj();
+            let mark = page.get_insert();
+            textview.scroll_to_mark(&mark, 0_f64, true, 0.5_f64, 0.5_f64);
         }
     }
 
