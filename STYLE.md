@@ -364,7 +364,7 @@ Although rust guidelines handle most of the rules, there are some additional gui
             ...
         }
     ```
-    Even then, generics are somewhat discouraged as it sometimes overcomplicates code where simpler
+    Even then, do not overuse generics as it sometimes overcomplicates code where simpler
     solutions exist.
 
     2. Add an `unimplemented` macro for unimplemented part of code. Reserve `todo` macros for
