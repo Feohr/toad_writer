@@ -26,23 +26,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 mod dimensions;
+mod buffer;
 
 use dimensions::*;
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::Object, prelude::*, subclass::prelude::*,
-    TextView,
+    TextView, CompositeTemplate, TextIter, glib::subclass::*, TextBuffer,
 };
 use log::*;
+use buffer::TWBuffer;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
 mod imp {
     use super::*;
 
-    #[derive(Debug)]
+    #[derive(Debug, Default, CompositeTemplate)]
+    #[template(resource = "/com/github/feohr/ToadWriter/page.ui")]
     pub struct TWPage {
         pub count: usize,
         pub size: Pixels,
+        #[template_child]
+        pub buffer: TemplateChild<TWBuffer>,
     }
 
     #[glib::object_subclass]
@@ -51,26 +56,32 @@ mod imp {
         type ParentType = TextView;
         type Type = super::TWPage;
 
-        fn new() -> Self {
-            Self {
-                count: 0_usize,
-                size: pixels_with_res(ISODimensions::default().get()),
-            }
+        fn class_init(klass: &mut Self::Class) {
+            klass.bind_template();
+            klass.bind_template_callbacks();
+        }
+
+        fn instance_init(obj: &InitializingObject<Self>) {
+            obj.init_template();
         }
     }
 
-    impl ObjectImpl for TWPage {
-        fn constructed(&self) {
-            self.parent_constructed();
+    #[gtk::template_callbacks]
+    impl TWPage {
+        #[template_callback]
+        fn text_changed(&self, page: &TextBuffer) {
+            let textview = self.obj();
+            let mark = page.get_insert();
+            textview.scroll_to_mark(&mark, 0_f64, true, 0.5_f64, 0.5_f64);
+        }
 
-            // Extracting values
-            let (height, width) = self.size;
-            info!(
-                "untitled file hence default page size set {} X {}",
-                height, width
-            );
+        #[template_callback]
+        fn tab_to_space(&self, iter: TextIter, new_text: &str) {
+            debug!("Iter: {:?}\ttext: {:?}", iter, new_text);
         }
     }
+
+    impl ObjectImpl for TWPage {}
 
     impl WidgetImpl for TWPage {}
 

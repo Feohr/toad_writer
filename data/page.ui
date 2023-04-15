@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <template class="TWPage" parent="GtkTextView">
+        <property name="buffer">
+            <object class="TWBuffer" id="buffer">
+                <signal name="changed" handler="text_changed" swapped="true"/>
+                <signal name="insert-text" handler="tab_to_space" swapped="true"/>
+            </object>
+        </property>
+    </template>
+</interface>

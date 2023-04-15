@@ -27,9 +27,13 @@
 
 use std::default::Default;
 
-pub type Pixels = (f64, f64);
+#[derive(Debug)]
+pub struct Pixels {
+    height: i32,
+    width: i32,
+}
 
-const NAS_DIMENSIONS: [Pixels; 4] = [
+const NAS_DIMENSIONS: [(f64, f64); 4] = [
     // Letter
     (8.5_f64, 11_f64),
     // Legal
@@ -39,7 +43,7 @@ const NAS_DIMENSIONS: [Pixels; 4] = [
     // Ledger
     (17_f64, 11_f64),
 ];
-const ISO_DIMENSIONS: [Pixels; 9] = [
+const ISO_DIMENSIONS: [(f64, f64); 9] = [
 // A0
     (33.1_f64, 46.8_f64),
 // A1
@@ -96,9 +100,15 @@ impl Default for ISODimensions {
     }
 }
 
+impl Default for Pixels {
+    fn default() -> Self {
+        ISODimensions::default().get().with_resolution()
+    }
+}
+
 impl ISODimensions {
     pub fn get(&self) -> Pixels {
-        match self {
+        let (height, width) = match self {
             ISODimensions::A0 => ISO_DIMENSIONS[0],
             ISODimensions::A1 => ISO_DIMENSIONS[1],
             ISODimensions::A2 => ISO_DIMENSIONS[2],
@@ -108,6 +118,11 @@ impl ISODimensions {
             ISODimensions::A6 => ISO_DIMENSIONS[6],
             ISODimensions::A7 => ISO_DIMENSIONS[7],
             ISODimensions::A8 => ISO_DIMENSIONS[8],
+        };
+
+        Pixels {
+            height: height as i32,
+            width: width as i32,
         }
     }
 }
@@ -115,16 +130,26 @@ impl ISODimensions {
 impl NASDimensions {
     #[allow(unused)]
     pub fn get(&self) -> Pixels {
-        match self {
+        let (height, width) = match self {
             NASDimensions::Letter => NAS_DIMENSIONS[0],
             NASDimensions::Legal => NAS_DIMENSIONS[1],
             NASDimensions::Tabloid => NAS_DIMENSIONS[2],
             NASDimensions::Ledger => NAS_DIMENSIONS[3],
+        };
+
+        Pixels {
+            height: height as i32,
+            width: width as i32,
         }
     }
 }
 
-pub fn pixels_with_res((height, width): Pixels) -> Pixels {
-    let resolution = gtk::PrintSettings::new().resolution() as f64;
-    (height * resolution, width * resolution)
+impl Pixels {
+    fn with_resolution(self) -> Self {
+        let resolution = gtk::PrintSettings::new().resolution();
+        Pixels {
+            height: self.height * resolution,
+            width: self.width * resolution,
+        }
+    }
 }

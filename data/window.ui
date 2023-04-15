@@ -44,18 +44,13 @@
                                 <property name="min-content-width">1000</property>
                                 <property name="child">
                                     <object class="TWPage" id="main_page">
-                                        <property name="wrap-mode">char</property>
+                                        <property name="wrap-mode">word-char</property>
                                         <property name="accepts-tab">false</property>
                                         <property name="monospace">true</property>
                                         <property name="left-margin">100</property>
                                         <property name="right-margin">100</property>
                                         <property name="top-margin">50</property>
                                         <property name="bottom-margin">50</property>
-                                        <property name="buffer">
-                                            <object class="GtkTextBuffer">
-                                                <signal name="changed" handler="text_changed" swapped="true"/>
-                                            </object>
-                                        </property>
                                         <style>
                                             <class name="main-page"/>
                                         </style>
