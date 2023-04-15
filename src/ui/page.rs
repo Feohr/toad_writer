@@ -25,16 +25,17 @@
 // OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-mod dimensions;
 mod buffer;
+mod dimensions;
 
+use buffer::TWBuffer;
 use dimensions::*;
 use gtk::{
-    glib, glib::subclass::object::ObjectImpl, glib::Object, prelude::*, subclass::prelude::*,
-    TextView, CompositeTemplate, TextIter, glib::subclass::*, TextBuffer,
+    glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
+    subclass::prelude::*, CompositeTemplate, TextBuffer, TextView,
 };
+#[allow(unused_imports)]
 use log::*;
-use buffer::TWBuffer;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
@@ -73,11 +74,6 @@ mod imp {
             let textview = self.obj();
             let mark = page.get_insert();
             textview.scroll_to_mark(&mark, 0_f64, true, 0.5_f64, 0.5_f64);
-        }
-
-        #[template_callback]
-        fn tab_to_space(&self, iter: TextIter, new_text: &str) {
-            debug!("Iter: {:?}\ttext: {:?}", iter, new_text);
         }
     }
 

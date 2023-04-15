@@ -33,9 +33,9 @@ use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
     subclass::prelude::*, ApplicationWindow, CompositeTemplate,
 };
-use std::default::Default;
 #[allow(unused_imports)]
 use log::*;
+use std::default::Default;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
