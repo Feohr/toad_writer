@@ -1,2 +1,4 @@
 /target
 /data/*.xml
+/crate/*/target
+/crate/*/Cargo.lock

@@ -1,14 +1,2 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
