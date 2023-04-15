@@ -48,6 +48,7 @@ inspiration from various typesetting systems like LaTeX, Markdown and XML.
             - [GTK On Windows](#gtk-on-windows)
         - [Compilation](#compilation)
 - [License](#license)
+- [Style Guide](#style-guide)
 - [Contribution](#contribution)
 
 ## Prototype
@@ -131,6 +132,10 @@ command:
 
 The following project is licensed under BSD 3-clause "New" or "Revised" License.
 - [LICENSE](LICENSE.md) or https://spdx.org/licenses/BSD-3-Clause.html
+
+## Style Guide
+
+To learn more about the styling guidelines: [Style Guide](STYLE.md).
 
 ### Contribution
 
