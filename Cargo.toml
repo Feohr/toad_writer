@@ -35,5 +35,6 @@ format = { package = "toad_writer_format", path = "crate/toad_writer_format" }
 [build-dependencies]
 glib-build-tools = "0.17.0"
 serde = { version = "1.0.155", features = ["derive"] }
+thiserror = "1.0.39"
 toml = "0.7.2"
 xml = { version = "0.8.4", package = "xml-rs" }
