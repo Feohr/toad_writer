@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
     <template class="TWPage" parent="GtkTextView">
+        <property name="wrap-mode">word-char</property>
+        <property name="monospace">true</property>
+        <property name="left-margin">100</property>
+        <property name="right-margin">100</property>
+        <property name="top-margin">50</property>
+        <property name="bottom-margin">50</property>
         <property name="buffer">
             <object class="TWBuffer" id="buffer">
                 <signal name="changed" handler="text_changed" swapped="true"/>
