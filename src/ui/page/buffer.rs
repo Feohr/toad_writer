@@ -8,6 +8,9 @@ use gtk::{
 #[allow(unused_imports)]
 use log::*;
 
+const TAB: &'static str = "\x09";
+const SPACE: &'static str = "\x20";
+
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
 mod imp {
@@ -38,7 +41,7 @@ mod imp {
             self.parent_insert_text(
                 iter,
                 new_text
-                    .replace("\x09", &"\x20".repeat(self.tab_size))
+                    .replace(TAB , &SPACE.repeat(self.tab_size))
                     .as_str(),
             );
         }
