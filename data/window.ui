@@ -35,20 +35,28 @@
                             </object>
                         </child>
                         <child>
-                            <object class="GtkScrolledWindow">
-                                <property name="has-frame">true</property>
-                                <property name="hexpand">true</property>
-                                <property name="vexpand">true</property>
-                                <property name="hscrollbar-policy">never</property>
-                                <property name="min-content-height">500</property>
-                                <property name="min-content-width">1000</property>
-                                <property name="child">
-                                    <object class="TWPage" id="main_page">
-                                        <style>
-                                            <class name="main-page"/>
-                                        </style>
+                            <object class="GtkBox">
+                                <property name="orientation">vertical</property>
+                                <child>
+                                    <object class="GtkScrolledWindow">
+                                        <property name="has-frame">true</property>
+                                        <property name="hexpand">true</property>
+                                        <property name="vexpand">true</property>
+                                        <property name="hscrollbar-policy">never</property>
+                                        <property name="min-content-height">500</property>
+                                        <property name="min-content-width">1000</property>
+                                        <property name="child">
+                                            <object class="TWPage" id="main_page">
+                                                <style>
+                                                    <class name="main-page"/>
+                                                </style>
+                                            </object>
+                                        </property>
                                     </object>
-                                </property>
+                                </child>
+                                <child>
+                                    <object class="TWStatusBar" id="statusbar"/>
+                                </child>
                             </object>
                         </child>
                     </object>

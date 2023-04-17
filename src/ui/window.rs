@@ -3,6 +3,7 @@
 
 use crate::ui::menubox::TWMenuBox;
 use crate::ui::page::TWPage;
+use crate::ui::statusbar::TWStatusBar;
 use crate::ui::toolbar::TWToolBar;
 use crate::{config, ui::app::TWApplication};
 use gtk::{
@@ -27,6 +28,8 @@ mod imp {
         pub header: TemplateChild<TWMenuBox>,
         #[template_child(id = "main_page")]
         pub page: TemplateChild<TWPage>,
+        #[template_child]
+        pub statusbar: TemplateChild<TWStatusBar>,
     }
 
     #[glib::object_subclass]

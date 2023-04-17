@@ -5,6 +5,7 @@
         <file compressed="true" preprocess="xml-stripblanks">license.ui</file>
         <file compressed="true" preprocess="xml-stripblanks">menubox.ui</file>
         <file compressed="true" preprocess="xml-stripblanks">toolbar.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">statusbar.ui</file>
         <file compressed="true" preprocess="xml-stripblanks">page.ui</file>
         <file compressed="true" alias="style.css">css/style.css</file>
         <file compressed="true" alias="button.css">css/button.css</file>

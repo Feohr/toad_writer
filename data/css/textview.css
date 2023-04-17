@@ -15,3 +15,30 @@ textview.license-text {
 selection {
     background-color: #888B74;
 }
+
+value {
+    min-width: 25px;
+    color:  #D9D9D9;
+}
+
+slider {
+    border-radius: 999px;
+    background-image: none;
+    background-color: #D9D9D9;
+}
+
+highlight {
+    background-color: #D9D9D9;
+    border-color: #3F3F3F;
+}
+
+scale {
+    padding: 20px 5px;
+    background-color: transparent;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+box.statusbar {
+    background-color: #3F3F3F;
+}

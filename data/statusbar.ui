@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <template class="TWStatusBar" parent="GtkBox">
+        <child>
+            <object class="GtkBox">
+                <child>
+                    <object class="TWScale" id="scale">
+                        <property name="digits">0</property>
+                        <property name="draw-value">true</property>
+                        <property name="has-origin">true</property>
+                        <property name="value-pos">left</property>
+                        <property name="adjustment">
+                            <object class="GtkAdjustment">
+                                <property name="lower">0</property>
+                                <property name="upper">100</property>
+                                <property name="value">50</property>
+                                <property name="step-increment">10</property>
+                            </object>
+                        </property>
+                    </object>
+                </child>
+                <style>
+                    <class name="statusbar"/>
+                </style>
+            </object>
+        </child>
+    </template>
+</interface>

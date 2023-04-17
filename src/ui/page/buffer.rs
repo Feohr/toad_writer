@@ -40,9 +40,7 @@ mod imp {
         fn insert_text(&self, iter: &mut TextIter, new_text: &str) {
             self.parent_insert_text(
                 iter,
-                new_text
-                    .replace(TAB , &SPACE.repeat(self.tab_size))
-                    .as_str(),
+                new_text.replace(TAB, &SPACE.repeat(self.tab_size)).as_str(),
             );
         }
     }

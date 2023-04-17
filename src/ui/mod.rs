@@ -5,5 +5,6 @@ pub(crate) mod app;
 pub(crate) mod license;
 pub(crate) mod menubox;
 pub(crate) mod page;
+pub(crate) mod statusbar;
 pub(crate) mod toolbar;
 pub(crate) mod window;
