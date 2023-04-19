@@ -4,7 +4,7 @@
 mod buffer;
 mod dimensions;
 
-use buffer::TWBuffer;
+pub use buffer::TWBuffer;
 use dimensions::*;
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
