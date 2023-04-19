@@ -88,7 +88,6 @@ impl TWScale {
 
     fn textview_buffer(&self) -> Option<TWBuffer> {
         self.parent()
-            .and_then(|gtkbox| gtkbox.parent())
             .and_then(|statbar| statbar.parent())
             .and_then(|gtkbox| gtkbox.first_child())
             .and_then(|scrolled| scrolled.first_child())
