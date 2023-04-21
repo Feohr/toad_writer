@@ -26,7 +26,7 @@ fn main() -> Result<glib::ExitCode> {
     gtk::glib::set_application_name(config::APP_NAME);
     // Default icon name
     gtk::Window::set_default_icon_name(config::APP_ID);
-    info!("Default icon name: {:?}", gtk::Window::default_icon_name());
+    debug!("Default icon name: {:?}", gtk::Window::default_icon_name());
     // Include GTK Composite Templates
     gtk::gio::resources_register_include!("compiled.gresource")?;
 

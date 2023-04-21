@@ -30,5 +30,10 @@
             compressed="true"
             preprocess="xml-stripblanks"
         >icons/hicolor/scalable/apps/512x512/@BASE_ID@.svg</file>
+        <file
+            alias="clipboard-check-symbolic.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/tools/clipboard-check-symbolic.svg</file>
     </gresource>
 </gresources>
