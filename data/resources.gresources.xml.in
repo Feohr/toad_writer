@@ -31,9 +31,49 @@
             preprocess="xml-stripblanks"
         >icons/hicolor/scalable/apps/512x512/@BASE_ID@.svg</file>
         <file
-            alias="clipboard-check-symbolic.svg"
+            alias="High-contrast-edit-copy.svg"
             compressed="true"
             preprocess="xml-stripblanks"
-        >icons/hicolor/scalable/tools/clipboard-check-symbolic.svg</file>
+        >icons/hicolor/scalable/tools/High-contrast-edit-copy.svg</file>
+        <file
+            alias="High-contrast-edit-cut.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/tools/High-contrast-edit-cut.svg</file>
+        <file
+            alias="High-contrast-edit-paste.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/tools/High-contrast-edit-paste.svg</file>
+        <file
+            alias="High-contrast-edit-undo.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/tools/High-contrast-edit-undo.svg</file>
+        <file
+            alias="High-contrast-edit-redo.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/tools/High-contrast-edit-redo.svg</file>
+        <file
+            alias="High-contrast-format-justify-left.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/tools/High-contrast-format-justify-left.svg</file>
+         <file
+            alias="High-contrast-format-justify-center.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/tools/High-contrast-format-justify-center.svg</file>
+         <file
+            alias="High-contrast-format-justify-right.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/tools/High-contrast-format-justify-right.svg</file>
+         <file
+            alias="High-contrast-format-justify-fill.svg"
+            compressed="true"
+            preprocess="xml-stripblanks"
+        >icons/hicolor/scalable/tools/High-contrast-format-justify-fill.svg</file>
     </gresource>
 </gresources>

@@ -3,10 +3,118 @@
     <template class="TWToolBar" parent="GtkBox">
         <child>
             <object class="GtkButton">
-                <property name="icon-name">clipboard-check-symbolic</property>
+                <property name="icon-name">High-contrast-edit-copy</property>
                 <style>
                     <class name="toolbar"/>
                 </style>
+            </object>
+        </child>
+        <child>
+            <object class="GtkButton">
+                <property name="icon-name">High-contrast-edit-cut</property>
+                <style>
+                    <class name="toolbar"/>
+                </style>
+            </object>
+        </child>
+        <child>
+            <object class="GtkButton">
+                <property name="icon-name">High-contrast-edit-paste</property>
+                <style>
+                    <class name="toolbar"/>
+                </style>
+            </object>
+        </child>
+        <child>
+            <object class="GtkButton">
+                <property name="icon-name">High-contrast-edit-redo</property>
+                <style>
+                    <class name="toolbar"/>
+                </style>
+            </object>
+        </child>
+        <child>
+            <object class="GtkButton">
+                <property name="icon-name">High-contrast-edit-undo</property>
+                <style>
+                    <class name="toolbar"/>
+                </style>
+            </object>
+        </child>
+        <child>
+            <object class="GtkBox">
+                <child>
+                    <object class="GtkButton">
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="label">bold</property>
+                                <attributes>
+                                    <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
+                                </attributes>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkButton">
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="label">italic</property>
+                                <attributes>
+                                    <attribute name="style" value="PANGO_STYLE_ITALIC"/>
+                                </attributes>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkButton">
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="label">underline</property>
+                                <attributes>
+                                    <attribute name="underline" value="PANGO_UNDERLINE_SINGLE"/>
+                                </attributes>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkButton">
+                        <child>
+                            <object class="GtkLabel">
+                                <property name="label">abc</property>
+                                <attributes>
+                                    <attribute name="strikethrough" value="TRUE"/>
+                                </attributes>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+        <child>
+            <object class="GtkBox">
+                <child>
+                    <object class="GtkButton">
+                        <property name="icon-name">High-contrast-format-justify-left</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkButton">
+                        <property name="icon-name">High-contrast-format-justify-center</property>
+                    </object>
+                </child>
+                 <child>
+                    <object class="GtkButton">
+                        <property name="icon-name">High-contrast-format-justify-right</property>
+                    </object>
+                </child>
+                 <child>
+                    <object class="GtkButton">
+                        <property name="icon-name">High-contrast-format-justify-fill</property>
+                    </object>
+                </child>
             </object>
         </child>
     </template>
