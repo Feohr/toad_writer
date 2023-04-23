@@ -24,6 +24,7 @@ time = "0.3.20"
 nlp = { package = "toad_writer_nlp", path = "crate/toad_writer_nlp" }
 tree = { package = "toad_writer_tree", path = "crate/toad_writer_tree" }
 format = { package = "toad_writer_format", path = "crate/toad_writer_format" }
+once_cell = "1.17.1"
 
 [dev-dependencies]
 gtk = { version = "0.6.2", package = "gtk4", features = ["v4_8"] }

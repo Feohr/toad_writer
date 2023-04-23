@@ -9,10 +9,10 @@ use gtk::{
     glib::{subclass::object::ObjectImpl, Object},
     prelude::*,
     subclass::prelude::*,
-    CssProvider, StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION,
+    CssProvider, style_context_add_provider_for_display, STYLE_PROVIDER_PRIORITY_APPLICATION,
 };
 use log::*;
-use std::cell::OnceCell;
+use once_cell::sync::OnceCell;
 use std::default::Default;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
@@ -21,7 +21,7 @@ mod imp {
     use super::*;
 
     pub struct TWApplication {
-        pub window: OnceCell<super::TWApplicationWindow>,
+        window: OnceCell<super::TWApplicationWindow>,
     }
 
     #[gtk::glib::object_subclass]
@@ -117,7 +117,7 @@ impl TWApplication {
         let display = Display::default().expect("Cannot get default display");
 
         // Setting StyleContext
-        StyleContext::add_provider_for_display(
+        style_context_add_provider_for_display(
             &display,
             &provider,
             STYLE_PROVIDER_PRIORITY_APPLICATION,
