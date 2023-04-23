@@ -95,7 +95,7 @@ fn parse_license_file(file: String, name: String) -> SPDXResult<()> {
 }
 
 fn get_license_id<'a>(mut split: Vec<&'a str>, name: String) -> SPDXResult<&'a str> {
-    // If token size is less exactly two
+    // If token size is exactly two
     if split.len() == 2_usize && Some("SPDX-License-Identifier") == split.pop() {
         if let Some(id) = split.pop() {
             return Ok(id);
