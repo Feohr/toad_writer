@@ -6,12 +6,13 @@ use gtk::{
     gdk::Display,
     gio::Application,
     glib,
-    glib::{subclass::object::ObjectImpl, Object, WeakRef},
+    glib::{subclass::object::ObjectImpl, Object},
     prelude::*,
     subclass::prelude::*,
     CssProvider, StyleContext, STYLE_PROVIDER_PRIORITY_APPLICATION,
 };
 use log::*;
+use std::cell::OnceCell;
 use std::default::Default;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
@@ -20,7 +21,7 @@ mod imp {
     use super::*;
 
     pub struct TWApplication {
-        pub window: WeakRef<super::TWApplicationWindow>,
+        pub window: OnceCell<super::TWApplicationWindow>,
     }
 
     #[gtk::glib::object_subclass]
@@ -31,7 +32,7 @@ mod imp {
 
         fn new() -> Self {
             Self {
-                window: WeakRef::default(),
+                window: OnceCell::new(),
             }
         }
     }
@@ -46,10 +47,7 @@ mod imp {
             super::TWApplication::init_css("/com/github/feohr/ToadWriter/style.css");
 
             // Main window
-            let window = {
-                let data = None;
-                self.obj().create_window(data)
-            };
+            let window = self.obj().create_window();
             info!(
                 "Main Window: {{ id: {:?}, title: {:?} }}",
                 window.id(),
@@ -57,7 +55,10 @@ mod imp {
             );
 
             // Set window as the main app window
-            self.window.set(Some(&window));
+            let Ok(_) = self.window.set(window) else {
+                error!("Error while setting the application window");
+                return
+            };
         }
     }
 
@@ -96,7 +97,7 @@ impl TWApplication {
         app.run()
     }
 
-    fn create_window(&self, _data: Option<i32>) -> TWApplicationWindow {
+    fn create_window(&self) -> TWApplicationWindow {
         // Main window
         let window = TWApplicationWindow::new(self.clone());
 
