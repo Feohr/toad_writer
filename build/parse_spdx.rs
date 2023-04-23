@@ -22,6 +22,7 @@ pub type SPDXResult<T> = Result<T, Box<dyn std::error::Error>>;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
+#[inline]
 pub fn assert_license_identifier() -> SPDXResult<()> {
     // Assert inside source directory
     let path = PathBuf::from("src");
@@ -76,12 +77,12 @@ fn parse_license_file(file: String, name: String) -> SPDXResult<()> {
         let line = line.trim_matches('/');
 
         // Get the tokens
-        let mut split = line
+        let split = line
             .split_whitespace()
+            .rev()
             .flat_map(|split| split.split(':'))
             .filter(|token| !token.is_empty())
             .collect::<Vec<&str>>();
-        split.reverse();
         dbg!(&split);
 
         // Get the license ID
@@ -94,6 +95,7 @@ fn parse_license_file(file: String, name: String) -> SPDXResult<()> {
     Ok(())
 }
 
+#[inline]
 fn get_license_id<'a>(mut split: Vec<&'a str>, name: String) -> SPDXResult<&'a str> {
     // If token size is exactly two
     if split.len() == 2_usize && Some("SPDX-License-Identifier") == split.pop() {

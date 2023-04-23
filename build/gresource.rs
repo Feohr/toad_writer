@@ -2,7 +2,7 @@
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
 use crate::config::get_config_table;
-use std::{borrow::Cow, ffi::OsStr, fs::File, io::BufReader, path::PathBuf};
+use std::{borrow::Cow, ffi::OsStr, fs::{File, read_dir}, io::BufReader, path::PathBuf};
 use xml::{
     attribute::OwnedAttribute, name::OwnedName, namespace::Namespace, reader::XmlEvent, writer,
     writer::EmitterConfig, EventReader,
@@ -33,7 +33,7 @@ fn parse_resources(resource: PathBuf) {
         .parent()
         .expect("Error while getting the parent directories in \'data\'");
     let destination = parent.join(name);
-    let destination = std::fs::File::create(destination).unwrap();
+    let destination = File::create(destination).unwrap();
 
     let mut writer = EmitterConfig::new()
         .perform_indent(true)
@@ -109,7 +109,7 @@ fn parse_attribute_value(value: &mut String) -> &mut String {
 }
 
 fn get_xml_resources(path: &str) -> std::io::Result<Vec<PathBuf>> {
-    Ok(std::fs::read_dir(path)?
+    Ok(read_dir(path)?
         .map(|file| file.unwrap().path())
         .filter(|path| {
             let Some(extension) = path.extension() else { return false };
