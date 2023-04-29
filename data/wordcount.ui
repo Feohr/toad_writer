@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <template class="TWWordCount" parent="GtkBox">
+        <child>
+            <object class="GtkLabel">
+                <property name="label">Word Count:  </property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkLabel" id="label">
+                <property name="label">Nil</property>
+            </object>
+        </child>
+    </template>
+</interface>

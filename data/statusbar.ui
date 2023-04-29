@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
     <template class="TWStatusBar" parent="GtkBox">
-        <child>
+        <property name="hexpand">true</property>
+        <child type="start">
+            <object class="TWWordCount" id="word_count">
+                <property name="hexpand">true</property>
+            </object>
+        </child>
+        <child type="end">
             <object class="TWScale" id="scale">
                 <property name="digits">0</property>
                 <property name="draw-value">true</property>
