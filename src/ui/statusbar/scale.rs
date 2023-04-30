@@ -18,7 +18,7 @@ mod imp {
 
     #[derive(Default)]
     pub struct TWScale {
-        zoom_tag: WeakRef<TextTag>,
+        pub zoom_tag: WeakRef<TextTag>,
     }
 
     #[glib::object_subclass]
@@ -33,25 +33,7 @@ mod imp {
     impl WidgetImpl for TWScale {
         fn map(&self) {
             self.parent_map();
-
-            let obj = self.obj();
-
-            // Getting the zoom and buffer references
-            let Some(tag) = obj.create_zoom_tag() else {
-                error!("Couldn't get zoom tag reference");
-                return
-            };
-            let Some(buffer) = obj.textview_buffer() else {
-                error!("Couldn't get buffer reference");
-                return
-            };
-
-            // Set a local reference for tag
-            self.zoom_tag.set(Some(&tag));
-            // Set the buffer to apply tag when changed
-            buffer.connect_changed(move |buffer| {
-                buffer.apply_tag(&tag, &buffer.end_iter(), &buffer.start_iter());
-            });
+            self.obj().set_tag_reference();
         }
     }
 
@@ -62,7 +44,10 @@ mod imp {
             // Set scale factor to new_value
             match self.zoom_tag.upgrade() {
                 Some(tag) => tag.set_scale(new_value / 50_f64),
-                None => error!("Cannot get zoom tag reference as it is not set"),
+                None => {
+                    warn!("Cannot get zoom tag reference as it is not set");
+                    self.obj().set_tag_reference();
+                },
             }
 
             // Return bool from parent
@@ -77,13 +62,24 @@ glib::wrapper! {
 }
 
 impl TWScale {
-    fn create_zoom_tag(&self) -> Option<TextTag> {
-        self.textview_buffer().and_then(|buffer| {
-            if let Some(tag) = buffer.create_tag(Some("zoom"), &[]) {
-                return Some(tag);
-            }
-            None
-        })
+    fn set_tag_reference(&self) {
+
+        // Getting the zoom and buffer references
+        let Some(buffer) = self.textview_buffer() else {
+            error!("Couldn't get buffer reference");
+            return
+        };
+        let Some(tag) = buffer.create_tag(Some("zoom"), &[]) else {
+            error!("Couldn't get zoom tag reference");
+            return
+        };
+
+        // Set a local reference for tag
+        self.imp().zoom_tag.set(Some(&tag));
+        // Set the buffer to apply tag when changed
+        buffer.connect_changed(move |buffer| {
+            buffer.apply_tag(&tag, &buffer.end_iter(), &buffer.start_iter());
+        });
     }
 
     fn textview_buffer(&self) -> Option<TWBuffer> {
