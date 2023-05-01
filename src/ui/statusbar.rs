@@ -9,8 +9,8 @@ use gtk::{
     subclass::prelude::*, CompositeTemplate,
 };
 use scale::TWScale;
-use wordcount::TWWordCount;
 use std::default::Default;
+use wordcount::TWWordCount;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 

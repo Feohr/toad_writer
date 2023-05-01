@@ -2,7 +2,13 @@
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
 use crate::config::get_config_table;
-use std::{borrow::Cow, ffi::OsStr, fs::{File, read_dir}, io::BufReader, path::PathBuf};
+use std::{
+    borrow::Cow,
+    ffi::OsStr,
+    fs::{read_dir, File},
+    io::BufReader,
+    path::PathBuf,
+};
 use xml::{
     attribute::OwnedAttribute, name::OwnedName, namespace::Namespace, reader::XmlEvent, writer,
     writer::EmitterConfig, EventReader,

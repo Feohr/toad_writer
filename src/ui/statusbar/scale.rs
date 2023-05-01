@@ -47,7 +47,7 @@ mod imp {
                 None => {
                     warn!("Cannot get zoom tag reference as it is not set");
                     self.obj().set_tag_reference();
-                },
+                }
             }
 
             // Return bool from parent
@@ -63,7 +63,6 @@ glib::wrapper! {
 
 impl TWScale {
     fn set_tag_reference(&self) {
-
         // Getting the zoom and buffer references
         let Some(buffer) = self.textview_buffer() else {
             error!("Couldn't get buffer reference");

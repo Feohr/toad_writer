@@ -8,8 +8,9 @@ use gtk::{
     glib,
     glib::{subclass::object::ObjectImpl, Object},
     prelude::*,
+    style_context_add_provider_for_display,
     subclass::prelude::*,
-    CssProvider, style_context_add_provider_for_display, STYLE_PROVIDER_PRIORITY_APPLICATION,
+    CssProvider, STYLE_PROVIDER_PRIORITY_APPLICATION,
 };
 use log::*;
 use once_cell::sync::OnceCell;

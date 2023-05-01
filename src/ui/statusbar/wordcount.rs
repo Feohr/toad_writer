@@ -3,8 +3,8 @@
 
 #[allow(unused_imports)]
 use gtk::{
-    glib, glib::subclass::object::ObjectImpl, glib::Object, glib::WeakRef, prelude::*,
-    subclass::prelude::*, CompositeTemplate, Label, glib::subclass::*,
+    glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, glib::WeakRef,
+    prelude::*, subclass::prelude::*, CompositeTemplate, Label,
 };
 #[allow(unused_imports)]
 use log::*;
