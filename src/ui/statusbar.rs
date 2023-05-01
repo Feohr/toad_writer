@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! Statusbar module.
+//!
+//! To handle status bar to display [`TWPage`] status.
+//! ['TWPage'] : [`crate::ui::page::TWPage`]
+
 mod scale;
 mod wordcount;
 
@@ -19,9 +24,13 @@ mod imp {
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/com/github/feohr/ToadWriter/statusbar.ui")]
+    /// Struct to handle [`TWPage`] status bar.
+    /// ['TWPage'] : [`crate::ui::page::TWPage`]
     pub struct TWStatusBar {
+        /// To keep track word count in [`TWPage`].
         #[template_child]
         pub word_count: TemplateChild<TWWordCount>,
+        /// To Scale the [`TWPage`] size i.e. Zoom in and out.
         #[template_child]
         pub scale: TemplateChild<TWScale>,
     }

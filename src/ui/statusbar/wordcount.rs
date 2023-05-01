@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! Word count module.
+//!
+//! To handle the word count label.
+
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
     subclass::prelude::*, CompositeTemplate, Label,
@@ -16,7 +20,9 @@ mod imp {
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/com/github/feohr/ToadWriter/wordcount.ui")]
+    /// Struct to handle word count label.
     pub struct TWWordCount {
+        /// Inner label that holds the [`Label`].
         #[template_child]
         pub label: TemplateChild<Label>,
     }

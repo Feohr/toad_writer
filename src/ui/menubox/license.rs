@@ -1,18 +1,25 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! license window module.
+//!
+//! To handle [`TWLicenseWindow`] functions.
+
 use crate::ui::license::TWLicenseWindow;
 use gtk::{
     glib, glib::object::*, glib::subclass::object::ObjectImpl, glib::Object, subclass::prelude::*,
     Button,
 };
 
+/*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
+
 mod imp {
     use super::*;
 
-    // Define the TWLicenseButton struct
     #[derive(Debug, Default)]
+    /// Struct to handle [`TWLicenseButton`].
     pub struct TWLicenseButton {
+        /// [`WeakRef`] to [`TWLicenseWindow`] to create and open window.
         pub window: WeakRef<TWLicenseWindow>,
     }
 

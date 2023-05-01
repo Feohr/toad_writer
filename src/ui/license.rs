@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! License module.
+//!
+//! Creates and returns a [`TWLicenseWindow`].
+
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
     subclass::prelude::*, CompositeTemplate, TextView, Window,
@@ -14,7 +18,9 @@ mod imp {
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/com/github/feohr/ToadWriter/license.ui")]
+    /// The main license window struct.
     pub struct TWLicenseWindow {
+        /// The text inside license window.
         #[template_child]
         pub text: TemplateChild<TextView>,
     }
@@ -50,6 +56,7 @@ glib::wrapper! {
 }
 
 impl TWLicenseWindow {
+    /// Returns a new instance of [`TWLicenseWindow`].
     pub fn new() -> Self {
         Object::new::<Self>()
     }

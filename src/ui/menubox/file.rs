@@ -1,20 +1,28 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! File button module.
+//!
+//! [`Button`] to handle file IO functions.
+//! [`Button`] : [`gtk::Button`]
+
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object,
     subclass::prelude::*, Box, CompositeTemplate, MenuButton,
 };
 
+/*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
+
 mod imp {
     use super::*;
 
-    // Define the TWFileButton struct
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/feohr/ToadWriter/menu/file.ui")]
+    /// Struct to handle [`TWFileButton`].
     pub struct TWFileButton {
         #[template_child]
-        pub button: TemplateChild<MenuButton>,
+        /// To handle the actual button underneath.
+        button: TemplateChild<MenuButton>,
     }
 
     #[glib::object_subclass]

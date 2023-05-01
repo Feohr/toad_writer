@@ -1,14 +1,19 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! Dimensions module.
+//!
+//! To handle page sizes for the compilation.
+
 use std::default::Default;
 
+/// [`Pixels`] that holds height and width of the screen.
 #[derive(Debug)]
 pub struct Pixels {
     height: i32,
     width: i32,
 }
-
+/// Constant sizes for [`NASDimensions`].
 const NAS_DIMENSIONS: [(f64, f64); 4] = [
     // Letter
     (8.5_f64, 11_f64),
@@ -19,6 +24,7 @@ const NAS_DIMENSIONS: [(f64, f64); 4] = [
     // Ledger
     (17_f64, 11_f64),
 ];
+/// Constant sizes for [`ISODimensions`].
 const ISO_DIMENSIONS: [(f64, f64); 9] = [
     // A0
     (33.1_f64, 46.8_f64),
@@ -39,8 +45,7 @@ const ISO_DIMENSIONS: [(f64, f64); 9] = [
     // A8
     (2.0_f64, 2.9_f64),
 ];
-
-// North American Standard paper sizes
+/// North American Standard paper sizes.
 #[allow(unused)]
 pub enum NASDimensions {
     Letter,
@@ -48,7 +53,7 @@ pub enum NASDimensions {
     Tabloid,
     Ledger,
 }
-// International ISO A-Series paper sizes
+/// International ISO A-Series paper sizes.
 #[allow(unused)]
 pub enum ISODimensions {
     A0,
@@ -62,7 +67,7 @@ pub enum ISODimensions {
     A8,
 }
 
-/*▇▇▇▇▇▇▇▇w▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
+/*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
 impl Default for NASDimensions {
     fn default() -> Self {
@@ -83,6 +88,7 @@ impl Default for Pixels {
 }
 
 impl ISODimensions {
+    /// To get the [`ISODimensions`] value in [`Pixels`].
     pub fn get(&self) -> Pixels {
         let (height, width) = match self {
             ISODimensions::A0 => ISO_DIMENSIONS[0],
@@ -104,6 +110,7 @@ impl ISODimensions {
 }
 
 impl NASDimensions {
+    /// To get [`NASDimensions`] in [`Pixels`].
     #[allow(unused)]
     pub fn get(&self) -> Pixels {
         let (height, width) = match self {
@@ -121,6 +128,7 @@ impl NASDimensions {
 }
 
 impl Pixels {
+    /// To convert [`Pixels`] value by multiplying resolution value and returns `Self`.
     fn with_resolution(self) -> Self {
         let resolution = gtk::PrintSettings::new().resolution();
         Pixels {

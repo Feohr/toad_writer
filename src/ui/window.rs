@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! Window module.
+//!
+//! The main application window.
+
 use crate::ui::menubox::TWMenuBox;
 use crate::ui::page::TWPage;
 use crate::ui::statusbar::TWStatusBar;
@@ -21,13 +25,19 @@ mod imp {
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/com/github/feohr/ToadWriter/window.ui")]
+    /// An [`ApplicationWindow`] type struct to handle the main application window.
     pub struct TWApplicationWindow {
-        #[template_child(id = "main_toolbar")]
-        pub toolbar: TemplateChild<TWToolBar>,
+        /// For main headerbar buttons.
         #[template_child]
         pub header: TemplateChild<TWMenuBox>,
+        /// Toolbar object.
+        #[template_child(id = "main_toolbar")]
+        pub toolbar: TemplateChild<TWToolBar>,
+        /// Main [`TextView`] object.
+        /// [`TextView`] : [`gtk::TextView`]
         #[template_child(id = "main_page")]
         pub page: TemplateChild<TWPage>,
+        /// Main Statusbar object.
         #[template_child]
         pub statusbar: TemplateChild<TWStatusBar>,
     }
@@ -63,6 +73,7 @@ glib::wrapper! {
 }
 
 impl TWApplicationWindow {
+    /// Takes an [`TWApplication`] adds a new window to it and returns the [`TWApplicationWindow`].
     pub fn new(app: TWApplication) -> Self {
         let window = Object::builder()
             .property("title", Some(config::APP_NAME))

@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! Scale module.
+//!
+//! To handle the scaling of the textview.
+
 use crate::ui::page::TWBuffer;
 use crate::ui::page::TWPage;
 use gtk::{
@@ -17,7 +21,9 @@ mod imp {
     use super::*;
 
     #[derive(Default)]
+    /// Struct to handle the Scaler.
     pub struct TWScale {
+        /// Zoom tag that applies to the [`TWBuffer`] iter.
         pub zoom_tag: WeakRef<TextTag>,
     }
 
@@ -40,8 +46,9 @@ mod imp {
     impl ScaleImpl for TWScale {}
 
     impl RangeImpl for TWScale {
+        /// Called every time scroll bar value is changed. Zoom tag is updated to scale.
         fn change_value(&self, scroll_type: ScrollType, new_value: f64) -> bool {
-            // Set scale factor to new_value
+            // Set scale factor to new_value.
             match self.zoom_tag.upgrade() {
                 Some(tag) => tag.set_scale(new_value / 50_f64),
                 None => {
@@ -50,7 +57,7 @@ mod imp {
                 }
             }
 
-            // Return bool from parent
+            // Return bool from parent.
             self.parent_change_value(scroll_type, new_value)
         }
     }
@@ -62,6 +69,7 @@ glib::wrapper! {
 }
 
 impl TWScale {
+    /// To set the tag reference.
     fn set_tag_reference(&self) {
         // Getting the zoom and buffer references
         let Some(buffer) = self.textview_buffer() else {
@@ -81,6 +89,7 @@ impl TWScale {
         });
     }
 
+    /// Returns [`TWBuffer`] reference.
     fn textview_buffer(&self) -> Option<TWBuffer> {
         self.parent()
             .and_then(|statbar| statbar.parent())

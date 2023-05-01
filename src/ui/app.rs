@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! App module.
+//!
+//! Main application UI entry point. Creates a [`TWApplicationWindow`] and attaches it to the main
+//! application and then runs the application.
+
 use crate::{config, ui::window::TWApplicationWindow};
 use gtk::{
     gdk::Display,
@@ -21,7 +26,9 @@ use std::default::Default;
 mod imp {
     use super::*;
 
+    /// The main application struct.
     pub struct TWApplication {
+        /// The main application window.
         window: OnceCell<super::TWApplicationWindow>,
     }
 
@@ -43,6 +50,7 @@ mod imp {
     impl WidgetImpl for TWApplication {}
 
     impl ApplicationImpl for TWApplication {
+        /// The activate function which will run during the app activation.
         fn activate(&self) {
             // Initialize CSS
             super::TWApplication::init_css("/com/github/feohr/ToadWriter/style.css");
@@ -73,6 +81,8 @@ glib::wrapper! {
 }
 
 impl TWApplication {
+    /// The main application run function for [`TWApplication`]. Returns ExitCode with the
+    /// respective error information.
     pub fn run() -> glib::ExitCode {
         // Debug information
         debug!(
@@ -98,6 +108,7 @@ impl TWApplication {
         app.run()
     }
 
+    /// To create a new [`TWApplicationWindow`] window and return it.
     fn create_window(&self) -> TWApplicationWindow {
         // Main window
         let window = TWApplicationWindow::new(self.clone());
@@ -109,6 +120,7 @@ impl TWApplication {
         window
     }
 
+    /// To initialize and apply the CSS to the application.
     fn init_css(path: &str) {
         // Get the CssProvider
         let provider = CssProvider::new();

@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! Page module.
+//!
+//! To handle the [`TextView`] object of the application.
+
 mod buffer;
 mod dimensions;
 
@@ -21,10 +25,15 @@ mod imp {
 
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/feohr/ToadWriter/page.ui")]
+    /// Struct that holds the main [`TextView`] data of the application.
     pub struct TWPage {
+        /// To keep track of number of pages that will be produced in the final compilation.
         pub count: usize,
+        /// To keep track of page dimensions.
         pub size: Pixels,
+        /// To get a reference to [`TWWordCount`] label and update it accordingly.
         pub count_label: WeakRef<TWWordCount>,
+        /// The main [`TextView`] buffer.
         #[template_child]
         pub buffer: TemplateChild<TWBuffer>,
     }
@@ -47,6 +56,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl TWPage {
+        /// To move the view to follow the cursor in [`TWPage`].
         #[template_callback]
         fn scroll_to_cursor(&self, page: &TextBuffer) {
             let mark = page.get_insert();
@@ -54,6 +64,8 @@ mod imp {
                 .scroll_to_mark(&mark, 0_f64, true, 0.5_f64, 0.5_f64);
         }
 
+        /// To count the number of words in the [`TextBuffer`] and update the [`TWWordCount`]
+        /// label.
         #[template_callback]
         fn count_words(&self, page: &TextBuffer) {
             let Some(wordcount) = self.count_label.upgrade() else {
@@ -90,6 +102,7 @@ mod imp {
     impl ObjectImpl for TWPage {}
 
     impl WidgetImpl for TWPage {
+        /// Ran when the textview is mapped to the screen.
         fn map(&self) {
             self.parent_map();
             self.obj().set_count_label_reference();
@@ -105,6 +118,7 @@ glib::wrapper! {
 }
 
 impl TWPage {
+    /// A simple set function to fetch and set the reference to [`TWWordCount`].
     fn set_count_label_reference(&self) {
         let Some(wordcount) = self.count_label_reference() else {
             error!("Error while getting TWWordCount reference from TWPage");
@@ -113,6 +127,7 @@ impl TWPage {
         self.imp().count_label.set(Some(&wordcount));
     }
 
+    /// A simple function to get the reference to [`TWWordCount`].
     fn count_label_reference(&self) -> Option<TWWordCount> {
         self.parent()
             .and_then(|scrolled| scrolled.parent())

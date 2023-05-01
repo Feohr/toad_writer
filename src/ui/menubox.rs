@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! MenuBox module.
+//!
+//! To handle the menu buttons in the Toolbar.
+//! Buttons:
+//!     1. [`TWFileButton`]
+//!     2. [`TWLicenseButton`]
+
 mod file;
 mod license;
 
@@ -16,12 +23,16 @@ use log::*;
 mod imp {
     use super::*;
 
-    // Define the TWMenuBox struct
     #[derive(Debug, Default, CompositeTemplate)]
     #[template(resource = "/com/github/feohr/ToadWriter/menubox.ui")]
+    /// Struct to handle the toolabar menu [`Button`]s.
+    ///
+    /// [`Button`] : [`gtk::Button`]
     pub struct TWMenuBox {
+        /// A [`Button`] type to handle file IO operations.
         #[template_child]
         pub file: TemplateChild<TWFileButton>,
+        /// A [`Button`] type to open [`TWLicenseWindow`].
         #[template_child]
         pub license: TemplateChild<TWLicenseButton>,
     }
@@ -44,6 +55,7 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl TWMenuBox {
+        /// Signal to handle [`TWLicenseButton`] being clicked.
         #[template_callback]
         fn license_button_clicked(button: &TWLicenseButton) {
             debug!("license button clicked");

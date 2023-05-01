@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! Toolbar module.
+//!
+//! Handles the toolbar UI. Main interface to handle all the toolbar button signals.
+
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
     subclass::prelude::*, CompositeTemplate,
@@ -14,6 +18,7 @@ mod imp {
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/com/github/feohr/ToadWriter/toolbar.ui")]
+    /// Main struct for toolbar handling.
     pub struct TWToolBar;
 
     #[glib::object_subclass]

@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+//! Logger module
+//!
+//! This module handles the settings to initialize the logger.
+
 use anyhow::Result;
 use simplelog::{
     format_description, Color, ColorChoice, Config, ConfigBuilder, Level, LevelFilter,
@@ -9,6 +13,7 @@ use simplelog::{
 use std::fmt::{Display, Formatter};
 use thiserror::Error;
 
+/// Struct to handle timing error while initializing logger.
 #[derive(Debug, Error)]
 struct LocalTimeError;
 
@@ -20,11 +25,13 @@ impl Display for LocalTimeError {
     }
 }
 
+/// To initialize the logger.
 pub fn init_logger() -> Result<()> {
     init_term_logger()?;
     Ok(())
 }
 
+// Basic Configurations for logger.
 fn config() -> Result<Config> {
     Ok(ConfigBuilder::new()
         .set_level_padding(LevelPadding::Right)
@@ -50,6 +57,7 @@ fn init_term_logger() -> Result<()> {
     )?)
 }
 
+/// Initializing the terminal with the given configuration.
 #[cfg(debug_assertions)]
 fn init_term_logger() -> Result<()> {
     Ok(TermLogger::init(
