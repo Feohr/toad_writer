@@ -40,14 +40,13 @@ box.start {
 box.toolbar {
     padding: 1px;
     background-image: None;
-/*    background-color: #607756; */
     background-color: #888B74;
 }
 
 box.document-tree {
     padding: 1px;
     background-image: None;
-    background-color: blue;
+    background-color: #3D4339;
 }
 
 slider {
