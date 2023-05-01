@@ -46,10 +46,9 @@ mod imp {
     #[gtk::template_callbacks]
     impl TWPage {
         #[template_callback]
-        fn text_changed(&self, page: &TextBuffer) {
-            let textview = self.obj();
+        fn scroll_to_cursor(&self, page: &TextBuffer) {
             let mark = page.get_insert();
-            textview.scroll_to_mark(&mark, 0_f64, true, 0.5_f64, 0.5_f64);
+            self.obj().scroll_to_mark(&mark, 0_f64, true, 0.5_f64, 0.5_f64);
         }
     }
 
