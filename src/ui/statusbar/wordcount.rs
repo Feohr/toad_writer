@@ -1,16 +1,13 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
-#[allow(unused_imports)]
 use gtk::{
-    glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, glib::WeakRef,
-    prelude::*, subclass::prelude::*, CompositeTemplate, Label,
+    glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
+    subclass::prelude::*, CompositeTemplate, Label,
 };
 #[allow(unused_imports)]
 use log::*;
 use std::default::Default;
-#[allow(unused_imports)]
-use std::time::Duration;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
@@ -21,7 +18,7 @@ mod imp {
     #[template(resource = "/com/github/feohr/ToadWriter/wordcount.ui")]
     pub struct TWWordCount {
         #[template_child]
-        label: TemplateChild<Label>,
+        pub label: TemplateChild<Label>,
     }
 
     #[glib::object_subclass]
