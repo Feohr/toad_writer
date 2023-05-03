@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
     <template class="TWPage" parent="GtkTextView">
+        <property name="hexpand">true</property>
+        <property name="vexpand">true</property>
         <property name="wrap-mode">word-char</property>
         <property name="monospace">true</property>
         <property name="left-margin">100</property>
