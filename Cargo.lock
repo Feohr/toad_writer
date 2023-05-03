@@ -877,7 +877,6 @@ dependencies = [
  "thiserror",
  "time",
  "toad_writer_format",
- "toad_writer_nlp",
  "toad_writer_tree",
  "toml",
  "xml-rs",
@@ -885,10 +884,6 @@ dependencies = [
 
 [[package]]
 name = "toad_writer_format"
-version = "0.1.0"
-
-[[package]]
-name = "toad_writer_nlp"
 version = "0.1.0"
 
 [[package]]
