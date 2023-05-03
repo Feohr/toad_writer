@@ -5,103 +5,70 @@ use std::ffi::OsStr;
 use std::path::PathBuf;
 use thiserror::Error;
 
-#[derive(Debug, Error)]
-pub enum SPDXParseErr {
-    #[error("The given license is not BSD License. Found at {0:?}")]
-    NotBSDLicense(String),
-    #[error("The SPDX license comment needs to be the first thing in a file. Found at {0:?}")]
-    LicenseNotFirst(String),
-    #[error(
-        "Cannot parse the SPDX identifier. \
-    Please add at the top of the file if there isn't one. Found at {0:?}"
-    )]
-    ParsingError(String),
-}
+pub type SPDXResult = Result<(), Box<dyn std::error::Error>>;
 
-pub type SPDXResult<T> = Result<T, Box<dyn std::error::Error>>;
+// Directories that should be ignored
+const IGNORE_DIR: [&'static str; 6_usize] = ["target", "..", "/", "docs", "data", ".git"];
+
+#[derive(Debug, Error)]
+#[error(
+    "The license lines need to be added at the top of the file.\n\
+    Expected: \"SPDX-License-Identifier: BSD-3-Clause \
+    Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.\"\n\
+    Found: {0:?} at {1:?}."
+)]
+struct SPDXErr(String, String);
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
-#[inline]
-pub fn assert_license_identifier() -> SPDXResult<()> {
-    // Assert inside source directory
-    let path = PathBuf::from("src");
-    _assert_license_identifier(path)?;
-    // Assert inside build directory
-    let path = PathBuf::from("build");
-    _assert_license_identifier(path)?;
-    Ok(())
-}
-
-fn _assert_license_identifier(path: PathBuf) -> SPDXResult<()> {
+pub fn assert_license_identifier(path: PathBuf) -> SPDXResult {
     for file in std::fs::read_dir(path)? {
-        dbg!(&file);
-
         // Get file path
         let file = file?;
         let path = file.path();
+        let path_name = path
+            .file_name()
+            .unwrap_or(OsStr::new("NoName"))
+            .to_string_lossy()
+            .to_string();
+        let extension = path
+            .extension()
+            .and_then(|ext| ext.to_str())
+            .unwrap_or("NoExt");
 
-        // If the path is a directory
-        if path.is_dir() {
-            _assert_license_identifier(path.clone())?;
-            continue;
-        }
         // If the path is a file
-        let file = std::fs::read_to_string(path.clone())?;
-        parse_license_file(
-            file,
-            path.file_name()
-                .unwrap_or(OsStr::new("NoName"))
-                .to_string_lossy()
-                .to_string(),
-        )?;
+        if !path.is_dir() && extension.eq("rs") {
+            let file = std::fs::read_to_string(path.clone())?;
+            parse_license_file(file, path_name)?;
+        // If the path is a directory
+        } else if path.is_dir() && !IGNORE_DIR.contains(&path_name.as_str()) {
+            assert_license_identifier(path.clone())?;
+        }
+        // Do nothing if not both
     }
+
     Ok(())
 }
 
-fn parse_license_file(file: String, name: String) -> SPDXResult<()> {
-    // Skipping the first n empty lines
-    // If file is empty, don't do license assertion
-    if let Some(line) = file
+// Let's keep it real simple...
+fn parse_license_file(file: String, name: String) -> SPDXResult {
+    let lines = file
         .lines()
         .skip_while(|line| line.is_empty())
-        .map(|line| line.trim_matches('\x20'))
-        .collect::<Vec<&str>>()
-        .first()
+        .take(2_usize)
+        .map(|line| line.trim_start_matches("//").trim())
+        .collect::<Vec<&str>>();
+    let lines = (lines[0_usize], lines[1_usize]);
+
+    // This works just fine
+    // Why should I spend anymore time on this?
+    if (
+        "SPDX-License-Identifier: BSD-3-Clause",
+        "Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.",
+    ) != lines
     {
-        // The first line is not a comment
-        if !line.starts_with("//") {
-            return Err(Box::new(SPDXParseErr::LicenseNotFirst(name)));
-        }
-        // Trim the comment tags
-        let line = line.trim_matches('/');
-
-        // Get the tokens
-        let split = line
-            .split_whitespace()
-            .rev()
-            .flat_map(|split| split.split(':'))
-            .filter(|token| !token.is_empty())
-            .collect::<Vec<&str>>();
-        dbg!(&split);
-
-        // Get the license ID
-        let id = get_license_id(split, name.clone())?;
-        // Assertion for correct ID
-        if id.ne("BSD-3-Clause") {
-            return Err(Box::new(SPDXParseErr::NotBSDLicense(name)));
-        }
+        return Err(Box::new(SPDXErr(format!("{} {}", lines.0, lines.1), name)));
     }
+
     Ok(())
-}
-
-#[inline]
-fn get_license_id<'a>(mut split: Vec<&'a str>, name: String) -> SPDXResult<&'a str> {
-    // If token size is exactly two
-    if split.len() == 2_usize && Some("SPDX-License-Identifier") == split.pop() {
-        if let Some(id) = split.pop() {
-            return Ok(id);
-        }
-    }
-    return Err(Box::new(SPDXParseErr::ParsingError(name)));
 }
