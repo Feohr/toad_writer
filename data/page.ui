@@ -9,7 +9,7 @@
         <property name="bottom-margin">50</property>
         <property name="buffer">
             <object class="TWBuffer" id="buffer">
-                <signal name="changed" handler="scroll_to_cursor" swapped="true"/>
+                <signal name="end-user-action" handler="scroll_to_cursor" swapped="true"/>
                 <signal name="changed" handler="count_words" swapped="true"/>
             </object>
         </property>
