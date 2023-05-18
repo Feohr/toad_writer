@@ -32,6 +32,7 @@ tree = { package = "toad_writer_tree", path = "crate/toad_writer_tree" }
 format = { package = "toad_writer_format", path = "crate/toad_writer_format" }
 
 [build-dependencies]
+anyhow = "1.0.69"
 glib-build-tools = "0.17.0"
 serde = { version = "1.0.155", features = ["derive"] }
 thiserror = "1.0.39"

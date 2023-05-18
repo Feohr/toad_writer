@@ -1,28 +1,48 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
+use anyhow::Result;
 use std::ffi::OsStr;
 use std::path::PathBuf;
 use thiserror::Error;
 
-pub type SPDXResult = Result<(), Box<dyn std::error::Error>>;
+pub type SPDXResult = Result<()>;
 
 // Directories that should be ignored
 const IGNORE_DIR: [&'static str; 6_usize] = ["target", "..", "/", "docs", "data", ".git"];
 
+// Main error object
 #[derive(Debug, Error)]
-#[error(
-    "The license lines need to be added at the top of the file.\n\
-    Expected: \"SPDX-License-Identifier: BSD-3-Clause \
-    Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.\"\n\
-    Found: {0:?} at {1:?}."
-)]
-struct SPDXErr(String, String);
+#[error("Error while parsing the SPDX comments in ({file}).")]
+struct ParseCommentError {
+    file: String,
+    #[source]
+    error: SPDXError,
+}
+
+// Error types
+#[derive(Debug, Error)]
+#[error("Please make sure the top SPDX comments are added to your file.")]
+enum SPDXError {
+    #[error("The SPDX license line is not added to the top of your file.")]
+    SPDXLineNotAdded,
+    #[error("The license type is not correct found {0:?}.")]
+    IncorrectLicenseType(String),
+    #[error("Incorrect copyright information found {0:?}.")]
+    IncorrectCopyrightInfo(String),
+}
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
+impl ParseCommentError {
+    pub fn new(file: String, error: SPDXError) -> Self {
+        Self { file, error }
+    }
+}
+
 pub fn assert_license_identifier(path: PathBuf) -> SPDXResult {
     for file in std::fs::read_dir(path)? {
+        dbg!(&file);
         // Get file path
         let file = file?;
         let path = file.path();
@@ -58,16 +78,31 @@ fn parse_license_file(file: String, name: String) -> SPDXResult {
         .take(2_usize)
         .map(|line| line.trim_start_matches("//").trim())
         .collect::<Vec<&str>>();
-    let lines = (lines[0_usize], lines[1_usize]);
+    // Check if top comments even exists
+    let (Some(line1), Some(line2)) = (lines.get(0_usize), lines.get(1_usize)) else {
+        return Err(ParseCommentError::new(name, SPDXError::SPDXLineNotAdded).into())
+    };
 
-    // This works just fine
-    // Why should I spend anymore time on this?
-    if (
-        "SPDX-License-Identifier: BSD-3-Clause",
-        "Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.",
-    ) != lines
+    // Comment Validations
+    if line1.split_once(':').unwrap().1.trim() != "BSD-3-Clause" {
+        return Err(ParseCommentError::new(
+            name,
+            SPDXError::IncorrectLicenseType(line1.to_string()),
+        )
+        .into());
+    }
+    if !line2.starts_with("Copyright")
+        && "(Feohr) Mohammed Rehaan and the ToadWriter contributors"
+            .split_whitespace()
+            .map(|token| line2.contains(token))
+            .collect::<Vec<bool>>()
+            .contains(&false)
     {
-        return Err(Box::new(SPDXErr(format!("{} {}", lines.0, lines.1), name)));
+        return Err(ParseCommentError::new(
+            name,
+            SPDXError::IncorrectCopyrightInfo(line2.to_string()),
+        )
+        .into());
     }
 
     Ok(())

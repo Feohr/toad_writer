@@ -15,7 +15,7 @@ fn main() {
     config();
     compile_gresource();
     if let Err(err) = parse_spdx::assert_license_identifier(PathBuf::from("./")) {
-        panic!("SPDX License Assertion Error: {}", err);
+        panic!("{err:?}");
     }
     print!("cargo:rerun-if-changed=build/build.rs");
 }
