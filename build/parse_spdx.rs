@@ -6,7 +6,7 @@ use std::ffi::OsStr;
 use std::path::PathBuf;
 use thiserror::Error;
 
-pub type SPDXResult = Result<()>;
+pub type SPDXResult<T> = Result<T>;
 
 // Directories that should be ignored
 const IGNORE_DIR: [&'static str; 6_usize] = ["target", "..", "/", "docs", "data", ".git"];
@@ -30,6 +30,11 @@ enum SPDXError {
     IncorrectLicenseType(String),
     #[error("Incorrect copyright information found {0:?}.")]
     IncorrectCopyrightInfo(String),
+    #[error(
+        "Improper SPDX license line format. Expected `SPDX-License-Identifier: (licenes type)` \
+        but found {0:?}"
+    )]
+    ImproperLicenseFormat(String),
 }
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
@@ -40,7 +45,7 @@ impl ParseCommentError {
     }
 }
 
-pub fn assert_license_identifier(path: PathBuf) -> SPDXResult {
+pub fn assert_license_identifier(path: PathBuf) -> SPDXResult<()> {
     for file in std::fs::read_dir(path)? {
         dbg!(&file);
         // Get file path
@@ -71,28 +76,22 @@ pub fn assert_license_identifier(path: PathBuf) -> SPDXResult {
 }
 
 // Let's keep it real simple...
-fn parse_license_file(file: String, name: String) -> SPDXResult {
+fn parse_license_file(file: String, name: String) -> SPDXResult<()> {
     let lines = file
         .lines()
-        .skip_while(|line| line.is_empty())
+        .filter(|line| !line.is_empty())
         .take(2_usize)
+        .filter(|line| line.starts_with("//"))
         .map(|line| line.trim_start_matches("//").trim())
         .collect::<Vec<&str>>();
     // Check if top comments even exists
-    let (Some(line1), Some(line2)) = (lines.get(0_usize), lines.get(1_usize)) else {
-        return Err(ParseCommentError::new(name, SPDXError::SPDXLineNotAdded).into())
-    };
+    let (line1, line2) = comment_line_empty_check(name.clone(), lines)?;
 
     // Comment Validations
-    if line1.split_once(':').unwrap().1.trim() != "BSD-3-Clause" {
-        return Err(ParseCommentError::new(
-            name,
-            SPDXError::IncorrectLicenseType(line1.to_string()),
-        )
-        .into());
-    }
+    check_first_comment(name.clone(), line1)?;
+
     if !line2.starts_with("Copyright")
-        && "(Feohr) Mohammed Rehaan and the ToadWriter contributors"
+        || "(Feohr) Mohammed Rehaan and the ToadWriter contributors"
             .split_whitespace()
             .map(|token| line2.contains(token))
             .collect::<Vec<bool>>()
@@ -104,6 +103,33 @@ fn parse_license_file(file: String, name: String) -> SPDXResult {
         )
         .into());
     }
-
     Ok(())
+}
+
+#[inline]
+fn comment_line_empty_check(name: String, lines: Vec<&str>) -> SPDXResult<(&str, &str)> {
+    if let (Some(line1), Some(line2)) = (lines.get(0_usize), lines.get(1_usize)) {
+        if !line1.is_empty() && !line2.is_empty() {
+            return Ok((line1, line2));
+        }
+    }
+
+    return Err(ParseCommentError::new(name, SPDXError::SPDXLineNotAdded).into());
+}
+
+fn check_first_comment(name: String, line: &str) -> SPDXResult<()> {
+    if line.starts_with("SPDX-License-Identifier:") {
+        if line.split_once(':').unwrap().1.trim() != "BSD-3-Clause" {
+            return Err(ParseCommentError::new(
+                name,
+                SPDXError::IncorrectLicenseType(line.to_string()),
+            )
+            .into());
+        }
+        return Ok(());
+    }
+
+    return Err(
+        ParseCommentError::new(name, SPDXError::ImproperLicenseFormat(line.to_string())).into(),
+    );
 }
