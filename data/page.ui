@@ -12,8 +12,6 @@
         <property name="buffer">
             <object class="TWBuffer" id="buffer">
                 <signal name="end-user-action" handler="scroll_to_cursor" swapped="true"/>
-                <signal name="insert-text" handler="insert_word_count" swapped="true"/>
-                <signal name="delete-range" handler="delete_word_count" swapped="true"/>
                 <signal name="changed" handler="update_count_label" swapped="true"/>
             </object>
         </property>

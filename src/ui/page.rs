@@ -13,11 +13,10 @@ pub use buffer::TWBuffer;
 use dimensions::*;
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, glib::*, prelude::*,
-    subclass::prelude::*, CompositeTemplate, TextBuffer, TextIter, TextView,
+    subclass::prelude::*, CompositeTemplate, TextBuffer, TextView,
 };
 #[allow(unused_imports)]
 use log::*;
-use std::cell::RefCell;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
@@ -30,8 +29,6 @@ mod imp {
     pub struct TWPage {
         /// To keep track of number of pages that will be produced in the final compilation.
         pub count: usize,
-        /// To keep track of the word count so that can be updated to `count_label`.
-        pub word_count: RefCell<usize>,
         /// To keep track of page dimensions.
         pub size: Pixels,
         /// To get a reference to [`TWWordCount`] label and update it accordingly.
@@ -67,44 +64,22 @@ mod imp {
                 .scroll_to_mark(&mark, 0_f64, true, 0.5_f64, 0.5_f64);
         }
 
-        /// To count the number of words in the [`TextBuffer`] and update the [`TWWordCount`]
-        /// label.
         #[template_callback]
-        fn insert_word_count(&self, iter: &TextIter, new_text: &str) {
-            let mut word_count = self.word_count.take();
-            if let Some(count) = self.obj().parse_word_count(new_text, iter) {
-                word_count += count;
-            } else {
-                word_count += 1_usize;
-            }
-            self.word_count.set(word_count);
-        }
-
-        #[template_callback]
-        fn delete_word_count(&self, start: &TextIter, end: &TextIter) {
-            let mut word_count = self.word_count.take();
-            if let Some(count) = self
-                .obj()
-                .parse_word_count(self.buffer.text(start, end, false).as_str(), start)
-            {
-                word_count -= count;
-            } else {
-                word_count -= 1_usize;
-            }
-            self.word_count.set(word_count);
-        }
-
-        #[template_callback]
-        fn update_count_label(&self, _page: &TextBuffer) {
+        fn update_count_label(&self, buffer: &TextBuffer) {
             let Some(wordcount) = self.count_label.upgrade() else {
                 warn!("TWWordCount reference not set. Trying to set it again.");
                 self.obj().set_count_label_reference();
                 return
             };
+
+            let start = buffer.start_iter();
+            let end = buffer.end_iter();
+            let text = buffer.text(&start, &end, true);
+
             wordcount
                 .imp()
                 .label
-                .set_label(format!("{}", self.word_count.borrow()).as_str());
+                .set_label(format!("{}", self.obj().parse_word_count(text.as_str())).as_str());
         }
     }
 
@@ -151,21 +126,22 @@ impl TWPage {
     }
 
     /// Takes a buffer and calculates the word count.
-    fn parse_word_count(&self, buffer: &str, iter: &TextIter) -> Option<usize> {
-        buffer
-            .split_whitespace()
-            .filter_map(|tokens| {
-                let trimmed = tokens
-                    .chars()
-                    .filter(|ch| !ch.is_ascii_punctuation())
-                    .collect::<String>();
-                if trimmed.is_empty() {
-                    return None;
+    fn parse_word_count(&self, text: &str) -> usize {
+        let mut word_count = 0_usize;
+        let mut is_white = true;
+
+        text
+            .chars()
+            .for_each(|ch| {
+                if ch.is_whitespace() || ch.is_ascii_punctuation() {
+                    is_white = true;
+                } else if is_white {
+                    is_white = false;
+                    word_count += 1_usize;
                 }
-                Some(trimmed)
-            })
-            .count()
-            .checked_sub(!iter.char().is_ascii_punctuation() as usize)
+            });
+
+        word_count
     }
 }
 
