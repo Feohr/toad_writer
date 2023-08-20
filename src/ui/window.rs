@@ -5,14 +5,18 @@
 //!
 //! The main application window.
 
-use crate::ui::menubox::TWMenuBox;
-use crate::ui::page::TWPage;
-use crate::ui::statusbar::TWStatusBar;
-use crate::ui::toolbar::TWToolBar;
-use crate::{config, ui::app::TWApplication};
+use crate::ui::{
+    menubox::TWMenuBox,
+    page::TWPage,
+    statusbar::TWStatusBar,
+    toolbar::TWToolBar,
+    app::TWApplication,
+    license::TWLicenseWindow,
+};
+use crate::config;
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
-    subclass::prelude::*, ApplicationWindow, CompositeTemplate,
+    subclass::prelude::*, ApplicationWindow, CompositeTemplate, gio::SimpleAction, glib::*,
 };
 #[allow(unused_imports)]
 use log::*;
@@ -75,11 +79,31 @@ glib::wrapper! {
 impl TWApplicationWindow {
     /// Takes an [`TWApplication`] adds a new window to it and returns the [`TWApplicationWindow`].
     pub fn new(app: TWApplication) -> Self {
-        let window = Object::builder()
+        let window = Object::builder::<Self>()
             .property("title", Some(config::APP_NAME))
             .build();
         app.add_window(&window);
+
+        let action_open = Self::create_actions();
+        window.add_action(&action_open);
+
         window
+    }
+
+    fn create_actions() -> SimpleAction {
+        let license_win = WeakRef::new();
+
+        let action_open = SimpleAction::new("license.open", None);
+        action_open.connect_activate(move |_, _| {
+            let license = license_win.upgrade().unwrap_or_else(|| {
+                let license = TWLicenseWindow::new();
+                license_win.set(Some(&license));
+                license
+            });
+            license.show();
+        });
+
+        action_open
     }
 }
 

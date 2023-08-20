@@ -51,6 +51,9 @@
                                 <attributes>
                                     <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
                                 </attributes>
+                                <style>
+                                    <class name="toolbar"/>
+                                </style>
                             </object>
                         </child>
                     </object>
@@ -63,6 +66,9 @@
                                 <attributes>
                                     <attribute name="style" value="PANGO_STYLE_ITALIC"/>
                                 </attributes>
+                                <style>
+                                    <class name="toolbar"/>
+                                </style>
                             </object>
                         </child>
                     </object>
@@ -75,6 +81,9 @@
                                 <attributes>
                                     <attribute name="underline" value="PANGO_UNDERLINE_SINGLE"/>
                                 </attributes>
+                                <style>
+                                    <class name="toolbar"/>
+                                </style>
                             </object>
                         </child>
                     </object>
@@ -87,6 +96,9 @@
                                 <attributes>
                                     <attribute name="strikethrough" value="TRUE"/>
                                 </attributes>
+                                <style>
+                                    <class name="toolbar"/>
+                                </style>
                             </object>
                         </child>
                     </object>
@@ -98,21 +110,33 @@
                 <child>
                     <object class="GtkButton">
                         <property name="icon-name">High-contrast-format-justify-left</property>
+                        <style>
+                            <class name="toolbar"/>
+                        </style>
                     </object>
                 </child>
                 <child>
                     <object class="GtkButton">
                         <property name="icon-name">High-contrast-format-justify-center</property>
+                        <style>
+                            <class name="toolbar"/>
+                        </style>
                     </object>
                 </child>
                  <child>
                     <object class="GtkButton">
                         <property name="icon-name">High-contrast-format-justify-right</property>
+                        <style>
+                            <class name="toolbar"/>
+                        </style>
                     </object>
                 </child>
                  <child>
                     <object class="GtkButton">
                         <property name="icon-name">High-contrast-format-justify-fill</property>
+                        <style>
+                            <class name="toolbar"/>
+                        </style>
                     </object>
                 </child>
             </object>

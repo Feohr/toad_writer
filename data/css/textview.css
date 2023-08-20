@@ -22,7 +22,7 @@ value {
 }
 
 slider {
-    border-radius: 999px;
+    border-radius: 5px;
     background-image: none;
     background-color: #D9D9D9;
 }
@@ -30,13 +30,6 @@ slider {
 highlight {
     background-color: #D9D9D9;
     border-color: #3F3F3F;
-}
-
-scale {
-    padding: 20px 5px;
-    background-color: transparent;
-    border-radius: 10px;
-    margin: 5px;
 }
 
 box.statusbar {

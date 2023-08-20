@@ -10,16 +10,27 @@
                 <attribute name="action">window.close</attribute>
             </item>
         </section>
+        <section>
+            <item>
+                <attribute name="label" translatable="yes">_License</attribute>
+                <attribute name="action">win.license.open</attribute>
+            </item>
+        </section>
     </menu>
     <template class="TWFileButton" parent="GtkBox">
         <child>
             <object class="GtkMenuButton" id="button">
                 <property name="menu-model">file-menu</property>
                 <child>
-                    <object class="GtkLabel">
-                        <property name="label">File</property>
+                    <object class="GtkImage">
+                        <property name="icon-name">com.github.feohr.ToadWriter</property>
+                        <property name="pixel-size">32</property>
+                        <property name="hexpand">false</property>
                     </object>
                 </child>
+                <style>
+                    <class name="start"/>
+                </style>
             </object>
         </child>
     </template>

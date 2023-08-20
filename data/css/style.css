@@ -43,14 +43,12 @@ box.toolbar {
     background-color: #888B74;
 }
 
+box.count {
+    margin: 15px;
+}
+
 box.document-tree {
     padding: 1px;
     background-image: None;
     background-color: #3D4339;
-}
-
-slider {
-    min-width: 20px;
-    min-height: 40px;
-    border-radius: 8px;
 }

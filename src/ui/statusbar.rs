@@ -6,14 +6,12 @@
 //! To handle status bar to display [`TWPage`] status.
 //! ['TWPage'] : [`crate::ui::page::TWPage`]
 
-mod scale;
 mod wordcount;
 
 use gtk::{
     glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
     subclass::prelude::*, CompositeTemplate,
 };
-use scale::TWScale;
 use std::default::Default;
 pub use wordcount::TWWordCount;
 
@@ -30,9 +28,6 @@ mod imp {
         /// To keep track word count in [`TWPage`].
         #[template_child]
         pub word_count: TemplateChild<TWWordCount>,
-        /// To Scale the [`TWPage`] size i.e. Zoom in and out.
-        #[template_child]
-        pub scale: TemplateChild<TWScale>,
     }
 
     #[glib::object_subclass]

@@ -52,7 +52,7 @@ mod imp {
 glib::wrapper! {
     pub struct TWLicenseWindow(ObjectSubclass<imp::TWLicenseWindow>)
         @extends gtk::Widget, gtk::Window,
-        @implements gtk::gio::ActionMap, gtk::Buildable, gtk::gio::ActionGroup;
+        @implements gtk::Buildable, gtk::gio::ActionGroup;
 }
 
 impl TWLicenseWindow {

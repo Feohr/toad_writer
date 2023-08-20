@@ -7,8 +7,8 @@
 //! [`Button`] : [`gtk::Button`]
 
 use gtk::{
-    glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object,
-    subclass::prelude::*, Box, CompositeTemplate, MenuButton,
+    glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::*, MenuButton, Box,
+    subclass::prelude::*, CompositeTemplate,
 };
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
@@ -20,9 +20,9 @@ mod imp {
     #[template(resource = "/com/github/feohr/ToadWriter/menu/file.ui")]
     /// Struct to handle [`TWFileButton`].
     pub struct TWFileButton {
-        #[template_child]
         /// To handle the actual button underneath.
-        button: TemplateChild<MenuButton>,
+        #[template_child]
+        pub button: TemplateChild<MenuButton>,
     }
 
     #[glib::object_subclass]

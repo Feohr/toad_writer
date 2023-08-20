@@ -5,6 +5,7 @@
         <property name="default_width">700</property>
         <property name="default_height">625</property>
         <property name="resizable">false</property>
+        <property name="modal">true</property>
         <child type="titlebar">
             <object class="GtkHeaderBar"/>
         </child>
