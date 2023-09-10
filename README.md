@@ -29,6 +29,8 @@
     <img width=140 src="docs/ToadWriterLogo.png" alt="Toad Writer Icon Logo">
 </p>
 
+> Notice: This project is in it's early stages. As such it is utterly incomplete and cannot be used.
+
 ## Description
 
 A simple text editor that provides a typesetting system that is easy to use. It provides a section
