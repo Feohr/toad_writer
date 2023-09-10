@@ -2,3 +2,6 @@
 /data/*.xml
 /crate/*/target
 /crate/*/Cargo.lock
+/*.valgrind
+/*.out
+/heaptrack.*
