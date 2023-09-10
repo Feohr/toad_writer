@@ -41,7 +41,7 @@ fn config() -> Result<Config> {
         .set_level_color(Level::Error, Some(Color::Red))
         .set_time_format_custom(format_description!("[[[hour]:[minute]:[second]]"))
         .set_time_offset_to_local()
-        .or_else(|_| Err(LocalTimeError))?
+        .map_err(|_| LocalTimeError)?
         .set_location_level(LevelFilter::Error)
         .set_target_level(LevelFilter::Trace)
         .build())

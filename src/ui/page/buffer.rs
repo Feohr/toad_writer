@@ -13,9 +13,9 @@ use gtk::{
 use log::*;
 
 /// To hold tab value.
-const TAB: &'static str = "\x09";
+const TAB: &str = "\x09";
 /// To hold space value.
-const SPACE: &'static str = "\x20";
+const SPACE: &str = "\x20";
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 

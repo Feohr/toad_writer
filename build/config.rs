@@ -46,13 +46,13 @@ fn build_config(path: String) {
         format!(
             "
             #[allow(unused)]\n\
-            pub(crate) const APP_NAME: &'static str = \"{}\";\n\
+            pub(crate) const APP_NAME: &str = \"{}\";\n\
             #[allow(unused)]\n\
-            pub(crate) const APP_ID: &'static str = \"{}\";\n\
+            pub(crate) const APP_ID: &str = \"{}\";\n\
             #[allow(unused)]\n\
-            pub(crate) const BASE_ID: &'static str = \"{}\";\n\
+            pub(crate) const BASE_ID: &str = \"{}\";\n\
             #[allow(unused)]\n\
-            pub(crate) const PATH_ID: &'static str = \"{}\";\n\
+            pub(crate) const PATH_ID: &str = \"{}\";\n\
             ",
             config_table.vars.app_name,
             config_table.vars.app_id,

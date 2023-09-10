@@ -9,7 +9,7 @@ use thiserror::Error;
 pub type SPDXResult<T> = Result<T>;
 
 // Directories that should be ignored
-const IGNORE_DIR: [&'static str; 6_usize] = ["target", "..", "/", "docs", "data", ".git"];
+const IGNORE_DIR: [&str; 6_usize] = ["target", "..", "/", "docs", "data", ".git"];
 
 // Main error object
 #[derive(Debug, Error)]
@@ -108,7 +108,7 @@ fn parse_license_file(file: String, name: String) -> SPDXResult<()> {
 
 #[inline]
 fn comment_line_empty_check(name: String, lines: Vec<&str>) -> SPDXResult<(&str, &str)> {
-    if let (Some(line1), Some(line2)) = (lines.get(0_usize), lines.get(1_usize)) {
+    if let (Some(line1), Some(line2)) = (lines.first(), lines.get(1_usize)) {
         if !line1.is_empty() && !line2.is_empty() {
             return Ok((line1, line2));
         }
