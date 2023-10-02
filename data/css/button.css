@@ -9,26 +9,21 @@ button {
 }
 
 button:hover {
-    background-color: #888B74;
-    transform: scale(1.05);
+    transform: scale(1.15);
 }
 
 button:active {
-    background-color: #6B705B;
-    transform: scale(0.95);
+    transform: scale(0.85);
 }
 
-button.toolbar {
-    background-color: transparent;
+box.toolbar button {
+    background: None;
     border: None;
+    border-radius: 0px;
+    background-color: transparent;
+}
+
+box.toolbar label {
+    background-color: transparent;
     color: white;
-    margin: 0px;
-}
-
-button.toolbar:hover {
-    background-color: #4b4e47;
-}
-
-button.toolbar:active {
-    background-color: darkgrey;
 }
