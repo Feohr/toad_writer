@@ -1,5 +1,5 @@
 [package]
-name = "toad_writer_tree"
+name = "tree"
 version = "0.1.0"
 edition = "2021"
 

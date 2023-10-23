@@ -876,19 +876,9 @@ dependencies = [
  "simplelog",
  "thiserror",
  "time",
- "toad_writer_tree",
  "toml",
+ "tree",
  "xml-rs",
-]
-
-[[package]]
-name = "toad_writer_tree"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "gtk4",
- "log",
- "thiserror",
 ]
 
 [[package]]
@@ -923,6 +913,16 @@ dependencies = [
  "serde_spanned",
  "toml_datetime",
  "winnow",
+]
+
+[[package]]
+name = "tree"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "gtk4",
+ "log",
+ "thiserror",
 ]
 
 [[package]]
