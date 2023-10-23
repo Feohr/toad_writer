@@ -21,14 +21,13 @@ simplelog = "0.12.1"
 thiserror = "1.0.39"
 time = "0.3.20"
 # local libraries
-tree = { package = "toad_writer_tree", path = "crate/toad_writer_tree" }
-syntax = { package = "toad_writer_syntax", path = "crate/toad_writer_syntax" }
+tree = { package = "toad_writer_tree", path = "crates/toad_writer_tree" }
 once_cell = "1.17.1"
 
 [dev-dependencies]
 gtk = { version = "0.6.2", package = "gtk4", features = ["v4_8"] }
 # local libraries
-tree = { package = "toad_writer_tree", path = "crate/toad_writer_tree" }
+tree = { package = "toad_writer_tree", path = "crates/toad_writer_tree" }
 
 [build-dependencies]
 anyhow = "1.0.69"

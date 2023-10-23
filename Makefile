@@ -1,4 +1,4 @@
-crates=$(wildcard crate/*)
+crates=$(wildcard crates/*)
 
 all: $(crates)
 
