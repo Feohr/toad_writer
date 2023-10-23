@@ -38,7 +38,7 @@ pub fn get_config_table() -> Config {
 }
 
 fn build_config(path: String) {
-    let destination = Path::new(&path).clone().join("tw_config.rs");
+    let destination = Path::new(&path).join("tw_config.rs");
     let config_table = get_config_table();
 
     write(

@@ -7,8 +7,8 @@
 //! [`Button`] : [`gtk::Button`]
 
 use gtk::{
-    glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::*, MenuButton, Box,
-    subclass::prelude::*, CompositeTemplate,
+    glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::*, subclass::prelude::*,
+    Box, CompositeTemplate, MenuButton,
 };
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/

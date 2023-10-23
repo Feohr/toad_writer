@@ -5,18 +5,14 @@
 //!
 //! The main application window.
 
-use crate::ui::{
-    menubox::TWMenuBox,
-    page::TWPage,
-    statusbar::TWStatusBar,
-    toolbar::TWToolBar,
-    app::TWApplication,
-    license::TWLicenseWindow,
-};
 use crate::config;
+use crate::ui::{
+    app::TWApplication, license::TWLicenseWindow, menubox::TWMenuBox, page::TWPage,
+    statusbar::TWStatusBar, toolbar::TWToolBar,
+};
 use gtk::{
-    glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object, prelude::*,
-    subclass::prelude::*, ApplicationWindow, CompositeTemplate, gio::SimpleAction, glib::*,
+    gio::SimpleAction, glib, glib::subclass::object::ObjectImpl, glib::subclass::*, glib::Object,
+    glib::*, prelude::*, subclass::prelude::*, ApplicationWindow, CompositeTemplate,
 };
 #[allow(unused_imports)]
 use log::*;

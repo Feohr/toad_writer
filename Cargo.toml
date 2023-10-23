@@ -22,7 +22,6 @@ thiserror = "1.0.39"
 time = "0.3.20"
 # local libraries
 tree = { package = "toad_writer_tree", path = "crate/toad_writer_tree" }
-format = { package = "toad_writer_format", path = "crate/toad_writer_format" }
 syntax = { package = "toad_writer_syntax", path = "crate/toad_writer_syntax" }
 once_cell = "1.17.1"
 
@@ -30,7 +29,6 @@ once_cell = "1.17.1"
 gtk = { version = "0.6.2", package = "gtk4", features = ["v4_8"] }
 # local libraries
 tree = { package = "toad_writer_tree", path = "crate/toad_writer_tree" }
-format = { package = "toad_writer_format", path = "crate/toad_writer_format" }
 
 [build-dependencies]
 anyhow = "1.0.69"

@@ -66,7 +66,7 @@ mod imp {
             // Set window as the main app window
             let Ok(_) = self.window.set(window) else {
                 error!("Error while setting the application window");
-                return
+                return;
             };
         }
     }

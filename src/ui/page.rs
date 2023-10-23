@@ -69,7 +69,7 @@ mod imp {
             let Some(wordcount) = self.count_label.upgrade() else {
                 warn!("TWWordCount reference not set. Trying to set it again.");
                 self.obj().set_count_label_reference();
-                return
+                return;
             };
 
             let start = buffer.start_iter();
@@ -106,7 +106,7 @@ impl TWPage {
     fn set_count_label_reference(&self) {
         let Some(wordcount) = self.count_label_reference() else {
             error!("Error while getting TWWordCount reference from TWPage");
-            return
+            return;
         };
         self.imp().count_label.set(Some(&wordcount));
     }
@@ -130,16 +130,14 @@ impl TWPage {
         let mut word_count = 0_usize;
         let mut is_white = true;
 
-        text
-            .chars()
-            .for_each(|ch| {
-                if ch.is_whitespace() || ch.is_ascii_punctuation() {
-                    is_white = true;
-                } else if is_white {
-                    is_white = false;
-                    word_count += 1_usize;
-                }
-            });
+        text.chars().for_each(|ch| {
+            if ch.is_whitespace() || ch.is_ascii_punctuation() {
+                is_white = true;
+            } else if is_white {
+                is_white = false;
+                word_count += 1_usize;
+            }
+        });
 
         word_count
     }

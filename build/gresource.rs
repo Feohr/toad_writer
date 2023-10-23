@@ -47,7 +47,9 @@ fn parse_resources(resource: PathBuf) {
 
     for event in parser {
         let mut event = event.expect("Error while parsing xml");
-        let Some(write_event) = as_writer_event(&mut event) else { break };
+        let Some(write_event) = as_writer_event(&mut event) else {
+            break;
+        };
 
         writer
             .write(write_event)
@@ -118,7 +120,9 @@ fn get_xml_resources(path: &str) -> std::io::Result<Vec<PathBuf>> {
     Ok(read_dir(path)?
         .map(|file| file.unwrap().path())
         .filter(|path| {
-            let Some(extension) = path.extension() else { return false };
+            let Some(extension) = path.extension() else {
+                return false;
+            };
             extension.eq(OsStr::new("in"))
         })
         .collect::<Vec<PathBuf>>())
