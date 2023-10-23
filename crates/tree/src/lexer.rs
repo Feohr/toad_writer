@@ -36,7 +36,7 @@ pub fn lexer(buffer: GString) -> Vec<Glyph> {
     let mut output = Vec::<Glyph>::new();
 
     for ch in iter {
-        if ch.is_whitespace() { continue }
+        if ch == ' ' && ch != '\n' { continue }
         output.push(Glyph::new(GlyphType::Body, ch.to_string()))
     }
 
@@ -55,7 +55,7 @@ mod tests {
             vec![
                 Glyph { ty: GlyphType::Body, content: Box::from("a") },
                 Glyph { ty: GlyphType::Body, content: Box::from("b") },
-                Glyph { ty: GlyphType::Body, content: Box::from("c") }
+                Glyph { ty: GlyphType::Body, content: Box::from("c") },
             ],
             lexer(txt.into()),
         );
