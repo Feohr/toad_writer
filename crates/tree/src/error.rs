@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
-//! Library for handling the Toad Writer document tree.
+//! Error module.
 
-mod lexer;
-mod error;
-
-#[allow(unused)]
-use lexer::{Glyph, tokenize};
+use thiserror::Error;
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
+
+/// Error type for tree structure.
+#[derive(Error, Debug)]
+pub enum TreeError {
+    #[error("Invalid heading type without a heirarchy")]
+    NullHeading,
+}
