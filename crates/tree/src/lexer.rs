@@ -1,26 +1,31 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright 2023, (Feohr) Mohammed Rehaan and the ToadWriter contributors.
 
-//! Library for handling the format of Toad Writer documents.
+//! Library for handling the syntax of Toad Writer documents.
 
-use gtk::glib::GString;
-use std::str::Chars;
-use std::iter::Peekable;
-use crate::error::TreeError;
-use anyhow::Result;
+use gtk::{prelude::*, TextIter, TextBuffer, TextMark};
+
+const HEADING: char = '#';
+const SECTION: char = '~';
+
+trait ParseClosure<T: Sized, F: Fn(&mut TextIter) -> Option<T>> {
+    fn parse(&mut self, f: F) -> Option<T>;
+}
 
 /*▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇*/
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Glyph {
     ty: GlyphType,
+    // mark: Rc<TextMark>,
     content: Box<str>,
 }
 
 impl Glyph {
-    fn new(ty: GlyphType, content: String) -> Self {
+    fn new(ty: GlyphType, /* mark: Rc<TextMark>, */ content: String) -> Self {
         Glyph {
             ty,
+            // mark: mark.clone(),
             content: content.into_boxed_str(),
         }
     }
@@ -30,69 +35,76 @@ impl Glyph {
 #[allow(unused)]
 enum GlyphType {
     Title, // #
-    Section, // #!
+    Section, // ~
     Heading(usize), // ##, ###, ####, ...
     Body, // .*
 }
 
-
-pub fn tokenize(buffer: GString) -> Option<Vec<Glyph>> {
-    let mut iter = buffer.chars().peekable();
-    let mut output = Vec::<Glyph>::new();
-
-    while let Some(ch) = iter.peek() {
-        if ch.is_whitespace() && ch.ne(&'\n') {
-            iter.next()?;
-            continue;
-        }
-
-        match ch {
-            '#' => {
-                let mut appended = match_heading(&mut iter)?;
-                output.append(&mut appended);
-            },
-            _ => output.push(Glyph::new(GlyphType::Body, iter.next()?.to_string())),
-        }
+impl<T: Sized, F: Fn(&mut TextIter) -> Option<T>> ParseClosure<T, F> for TextIter {
+    fn parse(&mut self, f: F) -> Option<T> {
+        f(self)
     }
-
-    Some(output)
 }
 
-fn match_heading<'a>(iter: &mut Peekable<Chars<'a>>) -> Option<Vec<Glyph>> {
+pub fn tokenize(mark: &TextMark) -> Vec<Glyph> {
     let mut output = Vec::<Glyph>::new();
 
-    let mut level = iter.next()?.to_string();
-
-    while let Some(&'#') = iter.peek() {
-        level.push(iter.next()?);
+    if let Some(buffer) = mark.buffer() {
+        let iter = buffer.start_iter();
+        let mut append = parse_within_bounds(iter);
+        output.append(&mut append);
     }
 
-    let mut content = String::new();
-
-    while iter.peek().is_some() {
-        let ch = iter.next()?;
-        content.push(ch);
-
-        if ch == '\n' { break }
-    }
-
-    let content = content.trim().to_string();
-    let Ok(glyph) = get_heading_or_title(level, content) else {
-        return None;
-    };
-    output.push(glyph);
-
-    Some(output)
+    output
 }
 
-fn get_heading_or_title(level: String, content: String) -> Result<Glyph> {
-    let len = level.len();
+fn parse_within_bounds(mut iter: TextIter) -> Vec<Glyph> {
+    let mut output = Vec::<Glyph>::new();
 
-    match len {
-        0 => Err(TreeError::NullHeading.into()),
-        1 => Ok(Glyph::new(GlyphType::Title, content)),
-        _ => Ok(Glyph::new(GlyphType::Heading(len - 1), content)),
+    loop {
+        let Some(predicate) = iter.parse(skip_whitespaces) else { break };
+        let Some(glyph) = (match predicate {
+            HEADING => iter.parse(match_heading),
+            _ => None,
+        }) else { break };
+
+        output.push(glyph);
     }
+
+    output
+}
+
+fn match_heading(iter: &mut TextIter) -> Option<Glyph> {
+    let mut output = Option::<Glyph>::None;
+    let mut body = String::new();
+
+    let mut count = usize::MIN.wrapping_add(1);
+    while iter.forward_char() {
+        if iter.char().eq(&HEADING) {
+            count = count.wrapping_add(1);
+            continue
+        }
+        if iter.ends_line() { break }
+        body.push(iter.char());
+    }
+
+    if !body.is_empty() {
+        let glyph = Glyph::new(GlyphType::Heading(count), body);
+        output.replace(glyph);
+    }
+
+    output
+}
+
+fn skip_whitespaces(iter: &mut TextIter) -> Option<char> {
+    while iter.forward_char() {
+        let ch = iter.char();
+        if !ch.is_whitespace() {
+            return Some(ch)
+        }
+    }
+
+    None
 }
 
 #[cfg(test)]
@@ -100,34 +112,28 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_lexer() {
-        let txt = "a \tbc\n";
+    fn test_title() {
+        gtk::init().unwrap();
+
+        let test = r#"
+            # Title
+            # Heading 1
+            # Heading 2
+            "#;
+
+        let buffer = TextBuffer::new(None);
+        let mut start = buffer.start_iter();
+        buffer.insert(&mut start, test);
+        let mark = TextMark::new(Some("all"), true);
+        buffer.add_mark(&mark, &start);
 
         assert_eq!(
             vec![
-                Glyph { ty: GlyphType::Body, content: Box::from("a") },
-                Glyph { ty: GlyphType::Body, content: Box::from("b") },
-                Glyph { ty: GlyphType::Body, content: Box::from("c") },
-                Glyph { ty: GlyphType::Body, content: Box::from("\n") },
+                Glyph { ty: GlyphType::Heading(1), content: " Title".into()},
+                Glyph { ty: GlyphType::Heading(1), content: " Heading 1".into()},
+                Glyph { ty: GlyphType::Heading(1), content: " Heading 2".into()},
             ],
-            tokenize(txt.into()).unwrap(),
-        );
-    }
-
-    #[test]
-    fn test_heading() {
-        let txt = "a \tb #I am Title\n ### I am heading\n c\n";
-
-        assert_eq!(
-            vec![
-                Glyph { ty: GlyphType::Body, content: Box::from("a") },
-                Glyph { ty: GlyphType::Body, content: Box::from("b") },
-                Glyph { ty: GlyphType::Title, content: Box::from("I am Title") },
-                Glyph { ty: GlyphType::Heading(2), content: Box::from("I am heading") },
-                Glyph { ty: GlyphType::Body, content: Box::from("c") },
-                Glyph { ty: GlyphType::Body, content: Box::from("\n") },
-            ],
-            tokenize(txt.into()).unwrap(),
+            tokenize(&mark),
         );
     }
 }
