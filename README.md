@@ -29,13 +29,11 @@
     <img width=140 src="docs/ToadWriterLogo.png" alt="Toad Writer Icon Logo">
 </p>
 
-> Notice: This project is in it's early stages. As such it is utterly incomplete and cannot be used.
+> # Notice: This project has been discontinued. It is incomplete in it's current state. You are allowed to create a fork and work on it as a separate project with acknowledgement and reference to this repository as the progenitor.
 
 ## Description
 
-A simple text editor that provides a typesetting system that is easy to use. It provides a section
-tree representation that helps keep track of different sections in a document. ToadWriter draws
-inspiration from various typesetting systems like LaTeX, Markdown and XML.
+A text editor that provides a typesetting system and a feature which infers the written text and notifies in case of contradictions. This is especially useful for fiction authors who want to avoid plotholes in their writings. ToadWriter draws inspiration from various typesetting systems like LaTeX, Markdown and XML.
 
 ## Table of Contents
 - [Description](#description)
